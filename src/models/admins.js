@@ -7,10 +7,12 @@ const adminUserSchema = mongoose.Schema(
             type : String,
             required: [true, "Please enter your first name"]
         },
+
         lastname : {
             type : String,
             required: [true, "Please enter your last name"]
         },
+        
         email : {
             type: String,
             required: [true, "Please enter your email address"],
@@ -22,10 +24,6 @@ const adminUserSchema = mongoose.Schema(
             type: String,
             required: [true, "Please enter a password"],
             minlength: [8, "Password must be at least 8 characters long"],
-        },
-        price: {
-           type: Number,
-           required: true 
         },
         image : {
             type: String,

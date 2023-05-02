@@ -14,7 +14,14 @@ app.use(express.json());
 // Mount the auth router
 app.use('/auth', authRouter);
 
+// result const 
 
+let result = {
+  status : null,
+  message : null,
+  data : null,
+  token : null
+};
 
 // other code for setting up the express app goes here
 
