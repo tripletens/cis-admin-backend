@@ -21,13 +21,9 @@ exports.register = async (req, res) => {
     // Check if the user already exists
     const adminUser = await AdminUser.findOne({ email });
     if (adminUser) {
-<<<<<<< HEAD
       result.message = "Admin with email already exists";
       result.status = false;
       return res.status(400).json(result);
-=======
-      return res.status(400).json({ error: "Admin already exists" });
->>>>>>> origin
     }
 
     // Hash the password
@@ -66,19 +62,14 @@ exports.login = async (req, res) => {
     // Check if the user exists
     const adminUser = await AdminUser.findOne({ email });
     if (!adminUser) {
-<<<<<<< HEAD
         result.message = "Invalid credentials";
         result.status = false;
       return res.status(400).json(result);
-=======
-      return res.status(400).json({ error: "Invalid credentials" });
->>>>>>> origin
     }
 
     // Check if the password is correct
     const validPassword = await bcrypt.compare(password, adminUser.password);
     if (!validPassword) {
-<<<<<<< HEAD
         result.message = "Invalid credentials";
         result.status = false;
       return res.status(400).json(result);
@@ -86,13 +77,6 @@ exports.login = async (req, res) => {
 
     // Create and sign a token
     const token = jwt.sign({ _id: adminUser._id }, process.env.JWT_SECRET, {
-=======
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
-
-    // Create and sign a token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
->>>>>>> origin
       expiresIn: "1h",
     });
 
