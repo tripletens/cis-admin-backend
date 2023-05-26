@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const uniqueValidator = require('mongoose-unique-validator');
+
 const productSchema = mongoose.Schema(
     {
         name : {
@@ -26,5 +28,8 @@ const productSchema = mongoose.Schema(
 );
 
 const Product = mongoose.model("Product", productSchema);
+
+adminUserSchema.plugin(uniqueValidator); // Add unique validation plugin to schema
+
 
 module.exports = Product;
