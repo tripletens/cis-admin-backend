@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const AdminUser = require("../models/admins");
 require("dotenv").config();
 
-// result const 
+// result const Nonny4real2023
 
 let result = {
     status : null,

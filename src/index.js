@@ -5,17 +5,29 @@ const app = express();
 const port = process.env.PORT || 3000;
 const connectDB = require('./config/db');
 const authRouter = require('./routes/auth');
+// const cors = require('cors');
 
 // connect to database 
 connectDB();
 
 app.use(express.json());
 
+// // cors 
+// app.use(cors(
+//   {
+//     origin: '*',
+//     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+//     headers: {
+//       'Content-Type': 'application/json',
+//       // Add other headers if needed
+//     }
+//   }
+// ));
+
 // Mount the auth router
 app.use('/auth', authRouter);
 
 // result const 
-
 let result = {
   status : null,
   message : null,
