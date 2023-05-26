@@ -15,7 +15,7 @@ app.use(express.json());
 // // cors 
 app.use(cors(
   {
-    origin: '*',
+    origin: 'http://localhost:3000',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     headers: {
       'Content-Type': 'application/json',
