@@ -18,7 +18,7 @@ let result = {
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {
-    const { id, title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five } = req.body;
+    const { title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five } = req.body;
 
     let update_data; 
     
