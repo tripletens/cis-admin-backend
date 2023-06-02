@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const authRouter = require('./routes/auth');
 const settingsRouter = require('./routes/settings');
+const landingpageRouter = require('./routes/landing');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,7 +21,11 @@ app.use(cors());
 app.use('/auth', authRouter);
 
 // Mount the settings router
-app.use('/api', settingsRouter);
+app.use('/api/settings', settingsRouter);
+
+// Mount the landing page router
+app.use('/api/settings/landing-page', landingpageRouter);
+
 
 // Other code for setting up the Express app goes here
 
