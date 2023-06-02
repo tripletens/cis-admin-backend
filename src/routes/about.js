@@ -4,6 +4,7 @@ const router = express.Router();
 
 const aboutOurImpactController = require('../controllers/about/aboutOurImpactController');
 const aboutFoundersVisionController = require('../controllers/about/aboutFoundersVisionController');
+const aboutOurIdentityController = require('../controllers/about/aboutOurIdentityController');
 
 // Define routes
 router.post('/founder-vision/update', aboutFoundersVisionController.update);
