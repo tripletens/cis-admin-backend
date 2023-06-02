@@ -18,19 +18,25 @@ let result = {
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {
-    const { id, title, sub_title } = req.body;
+    const { title, sub_title } = req.body;
 
     let update_data; 
 
-    if (id) {
+    // Deactivate all other documents
+    await LandingOurApproachSection.updateMany({}, { $set: { active: false } });
+
+    // Find the active document based on a specific condition
+    const activeDocument = await LandingOurApproachSection.findOne({ active: true });
+
+    if (activeDocument) {
       // Update the record if an ID is provided
       update_data = await LandingOurApproachSection.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: activeDocument._id },
         { $set: { title, sub_title } }
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await LandingOurApproachSection.collection.insertOne({ title, sub_title });
+      update_data = await LandingOurApproachSection.collection.insertOne({ title, sub_title, active:true });
     }
 
     result.status = true;

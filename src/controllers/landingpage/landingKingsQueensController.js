@@ -18,19 +18,25 @@ let result = {
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {
-    const { id, heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text } = req.body;
+    const { heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text } = req.body;
 
     let update_data; 
 
-    if (id) {
+    // Deactivate all other documents
+    await LandingKingsQueensSection.updateMany({}, { $set: { active: false } });
+
+    // Find the active document based on a specific condition
+    const activeDocument = await LandingKingsQueensSection.findOne({ active: true });
+
+    if (activeDocument) {
       // Update the record if an ID is provided
       update_data = await LandingKingsQueensSection.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: activeDocument._id },
         { $set: { heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text } }
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await LandingKingsQueensSection.collection.insertOne({ heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text });
+      update_data = await LandingKingsQueensSection.collection.insertOne({ heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text, active: true });
     }
 
     result.status = true;

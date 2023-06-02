@@ -20,15 +20,21 @@ exports.update = async (req, res) => {
 
     let update_data; 
 
-    if (id) {
+     // Deactivate all other documents
+     await Settings.updateMany({}, { $set: { active: false } });
+
+     // Find the active document based on a specific condition
+     const activeDocument = await Settings.findOne({ active: true });
+
+    if (activeDocument) {
       // Update the record if an ID is provided
       update_data = await Settings.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: activeDocument._id},
         { $set: { home_video_url } }
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await Settings.collection.insertOne({ home_video_url });
+      update_data = await Settings.collection.insertOne({ home_video_url, active:true });
     }
 
     result.message = "Settings updated successfully";

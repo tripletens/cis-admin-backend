@@ -12,6 +12,11 @@ const LandingOurApproachSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    active: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     created_at: {
       type: Date,
       default: Date.now,

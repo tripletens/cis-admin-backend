@@ -21,16 +21,22 @@ exports.update = async (req, res) => {
     const { id, title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five } = req.body;
 
     let update_data; 
+    
+    // Deactivate all other documents
+    await LandingOurPrograms.updateMany({}, { $set: { active: false } });
 
-    if (id) {
+    // Find the active document based on a specific condition
+    const activeDocument = await LandingOurPrograms.findOne({ active: true });
+
+    if (activeDocument) {
       // Update the record if an ID is provided
       update_data = await LandingOurPrograms.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: activeDocument._id },
         { $set: { title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five } }
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await LandingOurPrograms.collection.insertOne({ title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five });
+      update_data = await LandingOurPrograms.collection.insertOne({ title_one, subtitle_one, title_two,  subtitle_two,  title_three,  subtitle_three, title_four, subtitle_four, title_five, subtitle_five, active: true });
     }
 
     result.status = true;
