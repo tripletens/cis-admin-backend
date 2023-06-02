@@ -8,6 +8,6 @@ const aboutFoundersVisionController = require('../controllers/about/aboutFounder
 // Define routes
 router.post('/founder-vision/update', aboutFoundersVisionController.update);
 router.post('/our-impact/update', aboutOurImpactController.update);
-
+router.post('/our-identity/update', aboutOurIdentityController.update);
 
 module.exports = router;
