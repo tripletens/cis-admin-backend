@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const connectDB = require('./config/db');
 const authRouter = require('./routes/auth');
+const settingsRouter = require('./routes/settings');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,9 @@ app.use(cors());
 
 // Mount the auth router
 app.use('/auth', authRouter);
+
+// Mount the settings router
+app.use('/api', settingsRouter);
 
 // Other code for setting up the Express app goes here
 
