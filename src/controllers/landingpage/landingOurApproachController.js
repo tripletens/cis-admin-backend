@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require('mongodb');
 
-const LandingKingsQueensSection = require("../../models/landingkingsqueens");
+const LandingOurApproachSection = require("../../models/landingourapproach");
 
 require("dotenv").config();
 
@@ -18,23 +18,23 @@ let result = {
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {
-    const { id, heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text } = req.body;
+    const { id, title, sub_title } = req.body;
 
     let update_data; 
 
     if (id) {
       // Update the record if an ID is provided
-      update_data = await LandingKingsQueensSection.updateOne(
+      update_data = await LandingOurApproachSection.updateOne(
         { _id: new ObjectId(id) },
-        { $set: { heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text } }
+        { $set: { title, sub_title } }
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await LandingKingsQueensSection.collection.insertOne({ heading, sub_title, chess_icon_subtitle_one, chess_icon_subtitle_two, button_text });
+      update_data = await LandingOurApproachSection.collection.insertOne({ title, sub_title });
     }
 
     result.status = true;
-    result.message = "Landing Kings and Queens section updated successfully";
+    result.message = "Landing Our Approach section updated successfully";
     result.data = update_data;
 
     res.status(201).json(result);

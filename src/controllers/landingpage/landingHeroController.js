@@ -37,6 +37,8 @@ exports.update = async (req, res) => {
 
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    result.status = false;
+    result.data = error.message;
+    res.status(500).json(result);
   }
 };
