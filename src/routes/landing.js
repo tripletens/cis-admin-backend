@@ -12,6 +12,10 @@ const landingOurProgramsController = require('../controllers/landingpage/landing
 
 const landingBrandSupportController = require('../controllers/landingpage/landingBrandSupportController');
 
+const landingMetricsController = require('../controllers/landingpage/landingMetricsController');
+
+const landingUpdateImageController = require('../controllers/landingpage/landingUpdateImageController');
+
 // Define routes
 router.post('/hero-section/update', landingheroController.update);
 
@@ -22,5 +26,9 @@ router.post('/our-approach-section/update', landingOurApproachController.update)
 router.post('/our-programs-section/update', landingOurProgramsController.update);
 
 router.post('/brand-support-section/update', landingBrandSupportController.update);
+
+router.post('/metrics-section/update', landingMetricsController.update);
+
+router.post('/update-image/update', landingUpdateImageController.update);
 
 module.exports = router;
