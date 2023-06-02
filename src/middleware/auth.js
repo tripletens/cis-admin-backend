@@ -10,6 +10,7 @@ let result = {
 
 const AuthMiddleware = (req, res, next) => {
   const token = req.header('Authorization');
+
   if (!token){
     result.message = "Access Denied";
     result.status = false;
@@ -17,9 +18,10 @@ const AuthMiddleware = (req, res, next) => {
   } 
 
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const verified = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
     req.user = verified;
     next();
+
   } catch (err) {
     result.message = "Invalid Token";
     result.status = false;

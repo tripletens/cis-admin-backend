@@ -7,6 +7,8 @@ const settingsRouter = require('./routes/settings');
 const landingpageRouter = require('./routes/landing');
 const aboutpageRouter = require('./routes/about');
 
+const AuthMiddleware = require('./middleware/auth');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -22,13 +24,13 @@ app.use(cors());
 app.use('/auth', authRouter);
 
 // Mount the settings router
-app.use('/api/settings', settingsRouter);
+app.use('/api/settings',AuthMiddleware, settingsRouter);
 
 // Mount the landing page router
-app.use('/api/settings/landing-page', landingpageRouter);
+app.use('/api/settings/landing-page',AuthMiddleware,landingpageRouter);
 
 // Mount the about page router
-app.use('/api/settings/about-page', aboutpageRouter);
+app.use('/api/settings/about-page', AuthMiddleware, aboutpageRouter);
 
 // Other code for setting up the Express app goes here
 
