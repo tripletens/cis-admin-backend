@@ -6,6 +6,7 @@ const authRouter = require('./routes/auth');
 const settingsRouter = require('./routes/settings');
 const landingpageRouter = require('./routes/landing');
 const aboutpageRouter = require('./routes/about');
+const contactpageRouter = require('./routes/contact');
 
 const AuthMiddleware = require('./middleware/auth');
 
@@ -32,8 +33,11 @@ app.use('/api/settings/landing-page',AuthMiddleware,landingpageRouter);
 // Mount the about page router
 app.use('/api/settings/about-page', AuthMiddleware, aboutpageRouter);
 
-// Other code for setting up the Express app goes here
+// Mount the contact page router 
+app.use('/api/settings/contact-page', AuthMiddleware, contactpageRouter);
 
+
+// Other code for setting up the Express app goes here
 app.listen(port, () => {
   console.log(`App is currently running on port https://localhost:${port}`);
 });
