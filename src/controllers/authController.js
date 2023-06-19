@@ -55,24 +55,67 @@ exports.register = async (req, res) => {
 };
 
 // Login user
+// exports.login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // Check if the user exists
+//     const adminUser = await AdminUser.findOne({ email }, { maxTimeMS: 100000 });
+//     if (!adminUser) {
+//         result.message = "Invalid credentials";
+//         result.status = false;
+//       return res.status(400).json(result);
+//     }
+
+//     // Check if the password is correct
+//     const validPassword = await bcrypt.compare(password, adminUser.password);
+//     if (!validPassword) {
+//         result.message = "Invalid credentials";
+//         result.status = false;
+//       return res.status(400).json(result);
+//     }
+
+//     // Create and sign a token
+//     const token = jwt.sign({ _id: adminUser._id }, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     // Remove the password property from the response
+//     const { password: pw, ...data } = adminUser.toObject();
+
+//     result.message = "Admin Logged in successfully";
+//     result.data = data;
+//     result.token = token;
+//     result.status = true;
+
+//     res.status(200).json(result);
+//   } catch (error) {
+//     result.message = error.message + " hello error here ";
+//     result.status = false;
+//     res.status(500).json(result);
+//   }
+// };
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Check if the user exists
-    const adminUser = await AdminUser.findOne({ email }, { maxTimeMS: 100000 });
+    const adminUser = await AdminUser.findOne({ email }).lean();
     if (!adminUser) {
-        result.message = "Invalid credentials";
-        result.status = false;
-      return res.status(400).json(result);
+      return res.status(400).json({
+        status: false,
+        message: "Invalid credentials",
+      });
     }
 
     // Check if the password is correct
     const validPassword = await bcrypt.compare(password, adminUser.password);
     if (!validPassword) {
-        result.message = "Invalid credentials";
-        result.status = false;
-      return res.status(400).json(result);
+      return res.status(400).json({
+        status: false,
+        message: "Invalid credentials",
+      });
     }
 
     // Create and sign a token
@@ -81,17 +124,19 @@ exports.login = async (req, res) => {
     });
 
     // Remove the password property from the response
-    const { password: pw, ...data } = adminUser.toObject();
+    delete adminUser.password;
 
-    result.message = "Admin Logged in successfully";
-    result.data = data;
-    result.token = token;
-    result.status = true;
-
-    res.status(200).json(result);
+    res.status(200).json({
+      status: true,
+      message: "Admin logged in successfully",
+      data: adminUser,
+      token,
+    });
   } catch (error) {
-    result.message = error.message + " hello error here ";
-    result.status = false;
-    res.status(500).json(result);
+    console.error(error);
+    res.status(500).json({
+      status: false,
+      message: "An error occurred during login",
+    });
   }
 };
