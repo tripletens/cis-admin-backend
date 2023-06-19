@@ -39,6 +39,7 @@ exports.update = async (req, res) => {
 
     result.message = "Settings updated successfully";
     result.data = update_data;
+    result.status = true;
 
     res.status(201).json(result);
   } catch (error) {
