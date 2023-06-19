@@ -24,7 +24,7 @@ exports.update = async (req, res) => {
      await Settings.updateMany({}, { $set: { active: false } });
 
      // Find the active document based on a specific condition
-     const activeDocument = await Settings.findOne({ active: true });
+     const activeDocument = await Settings.findOne({ active: true }, { maxTimeMS: 10000 });
 
     if (activeDocument) {
       // Update the record if an ID is provided

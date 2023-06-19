@@ -60,7 +60,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if the user exists
-    const adminUser = await AdminUser.findOne({ email });
+    const adminUser = await AdminUser.findOne({ email }, { maxTimeMS: 10000 });
     if (!adminUser) {
         result.message = "Invalid credentials";
         result.status = false;
