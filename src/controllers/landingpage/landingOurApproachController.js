@@ -26,7 +26,7 @@ exports.update = async (req, res) => {
     await LandingOurApproachSection.updateMany({}, { $set: { active: false } });
 
     // Find the active document based on a specific condition
-    const activeDocument = await LandingOurApproachSection.findOne({ active: true });
+    const activeDocument = await LandingOurApproachSection.findOne({ active: true }).lean();
 
     if (activeDocument) {
       // Update the record if an ID is provided

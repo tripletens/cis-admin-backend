@@ -23,7 +23,7 @@ exports.update = async (req, res) => {
     await ContactUsSocialMediaSection.updateMany({}, { $set: { active: false } });
 
     // Find the active document based on a specific condition
-    const activeDocument = await ContactUsSocialMediaSection.findOne({ active: true });
+    const activeDocument = await ContactUsSocialMediaSection.findOne({ active: true }).lean();
 
     if (activeDocument) {
       // Update the record if an ID is provided

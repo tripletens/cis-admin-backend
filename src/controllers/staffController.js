@@ -19,7 +19,7 @@ exports.add = async (req, res) => {
     const { firstname, lastname, image, email, role } = req.body;
 
     // Check if the staff already exists
-    const staffUser = await StaffUser.findOne({ email });
+    const staffUser = await StaffUser.findOne({ email }).lean();
     if (staffUser) {
       result.message = "Staff with email already exists";
       result.status = false;

@@ -25,7 +25,7 @@ exports.update = async (req, res) => {
     await LandingHeroSection.updateMany({}, { $set: { active: false } });
 
     // Find the active document based on a specific condition
-    const activeDocument = await LandingHeroSection.findOne({ active: true });
+    const activeDocument = await LandingHeroSection.findOne({ active: true }).lean();
 
     if (activeDocument) {
       // Update the active document

@@ -22,7 +22,7 @@ exports.update = async (req, res) => {
     await AboutOurIdentitySection.updateMany({}, { $set: { active: false } });
 
     // Find the active document based on a specific condition
-    const activeDocument = await AboutOurIdentitySection.findOne({ active: true });
+    const activeDocument = await AboutOurIdentitySection.findOne({ active: true }).lean();
 
     if (activeDocument) {
       // Update the record if an ID is provided
