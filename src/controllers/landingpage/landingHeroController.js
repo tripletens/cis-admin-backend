@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require('mongodb');
-const LandingHeroSection = require("../../models/landingHeroSection");
+const LandingHeroSection = require("../../models/landingherosection");
 
 require("dotenv").config();
 
