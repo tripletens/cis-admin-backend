@@ -132,10 +132,13 @@ exports.login = async (req, res) => {
       data: adminUser,
       token,
     });
+
   } catch (error) {
     console.error(error);
+    
     res.status(500).json({
       status: false,
+      data : error,
       message: "An error occurred during login",
     });
   }
