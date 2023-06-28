@@ -74,7 +74,7 @@ exports.login = async (req, res) => {
 
     // Create and sign a token
     const token = jwt.sign({ _id: adminUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     // Remove the password property from the response
