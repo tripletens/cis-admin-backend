@@ -8,12 +8,21 @@ exports.register = async (req, res) => {
   try {
     const { firstname, lastname, username, email, password } = req.body;
 
+    // return res.json(res);
     // Check if the user already exists
     const adminUser = await AdminUser.findOne({ email }).lean();
     if (adminUser) {
       return res.status(400).json({
         status: false,
         message: "Admin with email already exists",
+      });
+    }
+
+    // Validate password
+    if (!password) {
+      return res.status(400).json({
+        status: false,
+        message: "Password is required",
       });
     }
 
