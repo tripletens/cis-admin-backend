@@ -7,8 +7,7 @@ const BlogSchema = mongoose.Schema(
         author : {
             type : String,
             required: [true, "Please enter a blog author name"]
-        },
-
+        }, 
         title : {
             type : String,
             required: [true, "Please enter a blog title"]
@@ -30,6 +29,13 @@ const BlogSchema = mongoose.Schema(
            required: true ,
            default: false
         },
+
+        status: {
+            type: Boolean,
+            required: true ,
+            default: true
+         },
+
         image : {
             type: String,
             required: false
