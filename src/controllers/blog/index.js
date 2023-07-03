@@ -67,13 +67,14 @@ const getBlogById = async (req, res) => {
 // Create a new blog
 const createBlog = async (req, res) => {
   try {
-    const { author, title, department_id, views, is_published, image } =
+    const { author, title, description, department_id, views, is_published, image } =
       req.body;
 
     // Create new blog
     const newBlog = new Blog({
       author,
       title,
+      description,
       department_id,
       views,
       is_published,
@@ -102,11 +103,11 @@ const createBlog = async (req, res) => {
 // Edit a blog
 const editBlog = async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { title, description } = req.body;
   try {
     const blog = await Blog.findOneAndUpdate(
       { _id: id, $or: [{ status: false }, { deleted_at: null }] },
-      { name, description },
+      { title, description },
       { new: true }
     );
 
@@ -231,6 +232,28 @@ const deleteBlog = async (req, res) => {
   }
 };
 
+const searchBlog = async (req, res) => {
+  const { query } = req.body;
+  try {
+    const blogs = await Blog.find({
+      $text: { $search: query },
+      $or: [{ status: false }, { deleted_at: null }],
+    });
+    res.json({
+      status: true,
+      message: "Blogs searched successfully",
+      data: blogs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      hey : error,
+      message: "An error occurred while searching for blogs",
+    });
+  }
+};
+
 module.exports = {
   getAllBlogs,
   getAllActiveBlogs,
@@ -240,4 +263,5 @@ module.exports = {
   deleteBlog,
   publishBlog,
   unpublishBlog,
+  searchBlog
 };

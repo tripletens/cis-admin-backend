@@ -28,4 +28,7 @@ router.put('/blog/:id', BlogController.editBlog);
 // DELETE /Blogs/:id - Delete a Blog
 router.delete('/blog/:id', BlogController.deleteBlog);
 
+// GET /Blogs - search a Blog
+router.get('/blogs/search', BlogController.searchBlog);
+
 module.exports = router;

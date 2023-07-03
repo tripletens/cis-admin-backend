@@ -8,9 +8,15 @@ const BlogSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter a blog author name"],
     },
+
     title: {
       type: String,
       required: [true, "Please enter a blog title"],
+    },
+
+    description: {
+      type: String,
+      required: false,
     },
 
     department_id: {
@@ -51,6 +57,9 @@ const BlogSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Create a text index on the 'title' and 'content' fields
+BlogSchema.index({ title: "text", content: "text", author: "text", description: "text" });
 
 const Blog = mongoose.model("Blog", BlogSchema);
 
