@@ -21,11 +21,25 @@ const getAllBlogs = async (req, res) => {
 // Fetch all active blogs
 const getAllActiveBlogs = async (req, res) => {
   try {
-    const Blogs = await Blog.find({ status: true });
+    const Blogs = await Blog.find({ status: true })
+      .populate("department", "department_id department_name");
+
+    // Extracting department_id and department_name for each blog
+    const blogsWithDepartments = Blogs.map((blog) => {
+      const { department } = blog;
+      const department_id = department._id;
+      const department_name = department.department_name;
+      return {
+        ...blog._doc,
+        department_id,
+        department_name,
+      };
+    });
+
     res.json({
       status: true,
       message: "All active blogs fetched successfully",
-      data: Blogs,
+      data: blogsWithDepartments,
     });
   } catch (error) {
     res.status(500).json({
@@ -36,13 +50,15 @@ const getAllActiveBlogs = async (req, res) => {
   }
 };
 
+
 const getBlogById = async (req, res) => {
   const { id } = req.params;
   try {
     const blog = await Blog.findOne({
       _id: id,
       $or: [{ status: false }, { deleted_at: null }],
-    });
+    }).populate("department", "department_id department_name");
+    
     if (!blog) {
       return res.status(404).json({
         status: false,
@@ -50,10 +66,19 @@ const getBlogById = async (req, res) => {
         message: "Blog not found or already deleted",
       });
     }
+
+    const { department } = blog;
+    const department_id = department._id;
+    const department_name = department.department_name;
+
     res.json({
       status: true,
       message: "Blog has been fetched successfully",
-      data: blog,
+      data: {
+        blog,
+        department_id,
+        department_name,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -63,6 +88,7 @@ const getBlogById = async (req, res) => {
     });
   }
 };
+
 
 // Create a new blog
 const createBlog = async (req, res) => {
