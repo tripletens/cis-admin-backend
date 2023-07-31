@@ -21,14 +21,16 @@ const getAllBlogs = async (req, res) => {
 // Fetch all active blogs
 const getAllActiveBlogs = async (req, res) => {
   try {
-    const Blogs = await Blog.find({ status: true })
-      .populate("department", "department_id department_name");
+    const Blogs = await Blog.find({ status: true }).populate("department_id");
 
     // Extracting department_id and department_name for each blog
     const blogsWithDepartments = Blogs.map((blog) => {
-      const { department } = blog;
-      const department_id = department._id;
-      const department_name = department.department_name;
+      const department = blog.department_id; // Retrieve the populated department
+
+      // Check if the department is defined and not null before accessing its properties
+      const department_id = department ? department._id : null;
+      const department_name = department ? department.name : null;
+
       return {
         ...blog._doc,
         department_id,
@@ -45,10 +47,12 @@ const getAllActiveBlogs = async (req, res) => {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while fetching blogs",
+      message: "An error occurred while fetching blogs => " + error,
     });
   }
 };
+
+
 
 
 const getBlogById = async (req, res) => {
@@ -129,11 +133,26 @@ const createBlog = async (req, res) => {
 // Edit a blog
 const editBlog = async (req, res) => {
   const { id } = req.params;
-  const { title, description } = req.body;
+  const { title, description, department_id, views, is_published, image } = req.body;
+
   try {
+    const blogUpdates = {};
+
+    // Only update the fields that were provided in the request body
+    if (title) blogUpdates.title = title;
+    if (description) blogUpdates.description = description;
+    if (department_id) blogUpdates.department_id = department_id; // Update department_id
+    if (views !== undefined) blogUpdates.views = views;
+    if (is_published !== undefined) blogUpdates.is_published = is_published;
+    if (image !== undefined) blogUpdates.image = image;
+
     const blog = await Blog.findOneAndUpdate(
-      { _id: id, $or: [{ status: false }, { deleted_at: null }] },
-      { title, description },
+      {
+        _id: id,
+        status: true, // Check if the blog is active (status: true)
+        deleted_at: null, // Check if the blog is not deleted (deleted_at: null)
+      },
+      blogUpdates,
       { new: true }
     );
 
@@ -144,6 +163,11 @@ const editBlog = async (req, res) => {
         message: "Blog not found or already deleted",
       });
     }
+
+    // No need to manually extract department_id and department_name
+    // as they are not part of the BlogSchema and will be populated
+    // when fetching the blog using .findOneAndUpdate
+
     res.json({
       status: true,
       data: blog,
@@ -157,6 +181,8 @@ const editBlog = async (req, res) => {
     });
   }
 };
+
+
 
 const unpublishBlog = async (req, res) => {
   const { id } = req.params;

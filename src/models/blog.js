@@ -20,9 +20,11 @@ const BlogSchema = mongoose.Schema(
     },
 
     department_id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
       required: [true, "Please enter a blog department"],
     },
+
 
     views: {
       type: Number,
