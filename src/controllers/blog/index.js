@@ -52,17 +52,14 @@ const getAllActiveBlogs = async (req, res) => {
   }
 };
 
-
-
-
 const getBlogById = async (req, res) => {
   const { id } = req.params;
   try {
     const blog = await Blog.findOne({
       _id: id,
       $or: [{ status: false }, { deleted_at: null }],
-    }).populate("department", "department_id department_name");
-    
+    }).populate("department_id", "department_id department_name"); // Populate the department_id field
+
     if (!blog) {
       return res.status(404).json({
         status: false,
@@ -71,9 +68,7 @@ const getBlogById = async (req, res) => {
       });
     }
 
-    const { department } = blog;
-    const department_id = department._id;
-    const department_name = department.department_name;
+    const { department_id, department_name } = blog.department_id; // Extract department data
 
     res.json({
       status: true,
@@ -92,6 +87,7 @@ const getBlogById = async (req, res) => {
     });
   }
 };
+
 
 
 // Create a new blog
