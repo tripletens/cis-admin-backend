@@ -52,6 +52,40 @@ const getAllActiveBlogs = async (req, res) => {
   }
 };
 
+// fetch all the unpublished blogs 
+const getAllUnpublishedBlogs = async (req, res) => {
+  try {
+    const Blogs = await Blog.find({ status: true, is_published : false }).populate("department_id");
+
+    // Extracting department_id and department_name for each blog
+    const blogsWithDepartments = Blogs.map((blog) => {
+      const department = blog.department_id; // Retrieve the populated department
+
+      // Check if the department is defined and not null before accessing its properties
+      const department_id = department ? department._id : null;
+      const department_name = department ? department.name : null;
+
+      return {
+        ...blog._doc,
+        department_id,
+        department_name,
+      };
+    });
+
+    res.json({
+      status: true,
+      message: "All unpublished blogs fetched successfully",
+      data: blogsWithDepartments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching blogs => " + error,
+    });
+  }
+};
+
 const getBlogById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -311,5 +345,6 @@ module.exports = {
   deleteBlog,
   publishBlog,
   unpublishBlog,
-  searchBlog
+  searchBlog,
+  getAllUnpublishedBlogs
 };

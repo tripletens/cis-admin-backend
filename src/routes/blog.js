@@ -10,6 +10,9 @@ router.get('/blogs', BlogController.getAllBlogs);
 // GET /Blogs/active - Fetch all active Blogs
 router.get('/blogs/active', BlogController.getAllActiveBlogs);
 
+// GET /Blogs/unpublished - Fetch all the unpublished Blogs 
+router.get('/blogs/unpublished', BlogController.getAllUnpublishedBlogs);
+
 // PUT /Blogs/publish - Publish a Blog
 router.put('/blog/publish/:id', BlogController.publishBlog);
 
