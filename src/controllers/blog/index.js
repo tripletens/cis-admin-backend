@@ -4,6 +4,9 @@ const Blog = require("../../models/blog");
 const getAllBlogs = async (req, res) => {
   try {
     const Blogs = await Blog.find();
+    // Sort the blogs by most recent (based on createdAt field)
+    Blogs.sort((a, b) => b.createdAt - a.createdAt);
+    
     res.json({
       status: true,
       message: "All blogs fetched successfully",
@@ -38,6 +41,9 @@ const getAllActiveBlogs = async (req, res) => {
       };
     });
 
+    // Sort the blogs by most recent (based on createdAt field)
+    blogsWithDepartments.sort((a, b) => b.createdAt - a.createdAt);
+
     res.json({
       status: true,
       message: "All active blogs fetched successfully",
@@ -52,10 +58,13 @@ const getAllActiveBlogs = async (req, res) => {
   }
 };
 
-// fetch all the unpublished blogs 
+// fetch all the unpublished blogs
 const getAllUnpublishedBlogs = async (req, res) => {
   try {
-    const Blogs = await Blog.find({ status: true, is_published : false }).populate("department_id");
+    const Blogs = await Blog.find({
+      status: true,
+      is_published: false,
+    }).populate("department_id");
 
     // Extracting department_id and department_name for each blog
     const blogsWithDepartments = Blogs.map((blog) => {
@@ -125,8 +134,15 @@ const getBlogById = async (req, res) => {
 // Create a new blog
 const createBlog = async (req, res) => {
   try {
-    const { author, title, description, department_id, views, is_published, image } =
-      req.body;
+    const {
+      author,
+      title,
+      description,
+      department_id,
+      views,
+      is_published,
+      image,
+    } = req.body;
 
     // Create new blog
     const newBlog = new Blog({
@@ -161,7 +177,8 @@ const createBlog = async (req, res) => {
 // Edit a blog
 const editBlog = async (req, res) => {
   const { id } = req.params;
-  const { title, description, department_id, views, is_published, image } = req.body;
+  const { title, description, department_id, views, is_published, image } =
+    req.body;
 
   try {
     const blogUpdates = {};
@@ -201,7 +218,6 @@ const editBlog = async (req, res) => {
       data: blog,
       message: "Blog has been updated successfully",
     });
-    
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -210,7 +226,6 @@ const editBlog = async (req, res) => {
     });
   }
 };
-
 
 const unpublishBlog = async (req, res) => {
   const { id } = req.params;
@@ -328,7 +343,7 @@ const searchBlog = async (req, res) => {
     res.status(500).json({
       status: false,
       data: null,
-      hey : error,
+      hey: error,
       message: "An error occurred while searching for blogs",
     });
   }
@@ -344,5 +359,5 @@ module.exports = {
   publishBlog,
   unpublishBlog,
   searchBlog,
-  getAllUnpublishedBlogs
+  getAllUnpublishedBlogs,
 };
