@@ -122,8 +122,6 @@ const getBlogById = async (req, res) => {
   }
 };
 
-
-
 // Create a new blog
 const createBlog = async (req, res) => {
   try {
@@ -203,6 +201,7 @@ const editBlog = async (req, res) => {
       data: blog,
       message: "Blog has been updated successfully",
     });
+    
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -213,13 +212,12 @@ const editBlog = async (req, res) => {
 };
 
 
-
 const unpublishBlog = async (req, res) => {
   const { id } = req.params;
 
   try {
     const unpublishBlog = await Blog.findByIdAndUpdate(
-      { _id: id, status: false, deleted_at: null },
+      { _id: id, status: true, deleted_at: null },
       { is_published: false },
       { new: true }
     );
@@ -254,7 +252,7 @@ const publishBlog = async (req, res) => {
 
   try {
     const blog = await Blog.findOneAndUpdate(
-      { _id: id, status: false, deleted_at: null },
+      { _id: id, status: true, deleted_at: null },
       { is_published: true },
       { new: true }
     );
