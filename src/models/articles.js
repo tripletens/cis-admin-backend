@@ -8,7 +8,7 @@ const ArticlesSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter a article author name"],
     },
-
+    
     title: {
       type: String,
       required: [true, "Please enter article title"],

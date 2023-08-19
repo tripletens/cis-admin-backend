@@ -78,78 +78,78 @@ const getMostRecentArticles = async (req, res) => {
 };
 
 // fetch all the unpublished articles
-const getAllUnpublishedBlogs = async (req, res) => {
-  try {
-    const Blogs = await Blog.find({
-      status: true,
-      is_published: false,
-    }).populate("department_id");
+// const getAllUnpublishedArticles = async (req, res) => {
+//   try {
+//     const Blogs = await Blog.find({
+//       status: true,
+//       is_published: false,
+//     }).populate("department_id");
 
-    // Extracting department_id and department_name for each blog
-    const blogsWithDepartments = Blogs.map((blog) => {
-      const department = blog.department_id; // Retrieve the populated department
+//     // Extracting department_id and department_name for each blog
+//     const blogsWithDepartments = Blogs.map((blog) => {
+//       const department = blog.department_id; // Retrieve the populated department
 
-      // Check if the department is defined and not null before accessing its properties
-      const department_id = department ? department._id : null;
-      const department_name = department ? department.name : null;
+//       // Check if the department is defined and not null before accessing its properties
+//       const department_id = department ? department._id : null;
+//       const department_name = department ? department.name : null;
 
-      return {
-        ...blog._doc,
-        department_id,
-        department_name,
-      };
-    });
+//       return {
+//         ...blog._doc,
+//         department_id,
+//         department_name,
+//       };
+//     });
 
-    res.json({
-      status: true,
-      message: "All unpublished blogs fetched successfully",
-      data: blogsWithDepartments,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      message: "An error occurred while fetching blogs => " + error,
-    });
-  }
-};
+//     res.json({
+//       status: true,
+//       message: "All unpublished blogs fetched successfully",
+//       data: blogsWithDepartments,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: false,
+//       data: null,
+//       message: "An error occurred while fetching blogs => " + error,
+//     });
+//   }
+// };
 
 // fetch articles by id 
-const getArticlesById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const blog = await Blog.findOne({
-      _id: id,
-      $or: [{ status: false }, { deleted_at: null }],
-    }).populate("department_id", "department_id department_name"); // Populate the department_id field
+// const getArticlesById = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const blog = await Blog.findOne({
+//       _id: id,
+//       $or: [{ status: false }, { deleted_at: null }],
+//     }).populate("department_id", "department_id department_name"); // Populate the department_id field
 
-    if (!blog) {
-      return res.status(404).json({
-        status: false,
-        data: null,
-        message: "Blog not found or already deleted",
-      });
-    }
+//     if (!blog) {
+//       return res.status(404).json({
+//         status: false,
+//         data: null,
+//         message: "Blog not found or already deleted",
+//       });
+//     }
 
-    const { department_id, department_name } = blog.department_id; // Extract department data
+//     const { department_id, department_name } = blog.department_id; // Extract department data
 
-    res.json({
-      status: true,
-      message: "Blog has been fetched successfully",
-      data: {
-        blog,
-        department_id,
-        department_name,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      message: "An error occurred while fetching the blog",
-    });
-  }
-};
+//     res.json({
+//       status: true,
+//       message: "Blog has been fetched successfully",
+//       data: {
+//         blog,
+//         department_id,
+//         department_name,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: false,
+//       data: null,
+//       message: "An error occurred while fetching the blog",
+//     });
+//   }
+// };
 
 // Create a new article
 const createArticle = async (req, res) => {
@@ -158,18 +158,16 @@ const createArticle = async (req, res) => {
       author,
       title,
       description,
-      department_id,
       views,
       is_published,
       image,
     } = req.body;
 
-    // Create new blog
-    const newBlog = new Blog({
+    // Create new article
+    const newArticle = new Articles({
       author,
       title,
       description,
-      department_id,
       views,
       is_published,
       image,
@@ -177,55 +175,56 @@ const createArticle = async (req, res) => {
       deleted_at: null,
     });
 
-    // Save the blog to the database
-    const savedBlog = await newBlog.save();
+    // Save the article to the database
+    const savedArticles = await newArticle.save();
 
     res.status(201).json({
       status: true,
-      message: "Blog created successfully",
-      data: savedBlog,
+      message: "Articles created successfully",
+      data: savedArticles,
     });
+
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred during blog creation",
+      message: "An error occurred during articles creation",
     });
   }
 };
 
-// Edit a blog
-const editBlog = async (req, res) => {
+// Edit a articles
+const editArticle = async (req, res) => {
   const { id } = req.params;
-  const { title, description, department_id, views, is_published, image } =
+  const { author, title, description, views, is_published, image } =
     req.body;
 
   try {
-    const blogUpdates = {};
+    const articleUpdates = {};
 
     // Only update the fields that were provided in the request body
-    if (title) blogUpdates.title = title;
-    if (description) blogUpdates.description = description;
-    if (department_id) blogUpdates.department_id = department_id; // Update department_id
-    if (views !== undefined) blogUpdates.views = views;
-    if (is_published !== undefined) blogUpdates.is_published = is_published;
-    if (image !== undefined) blogUpdates.image = image;
+    if (author) articleUpdates.author = author;
+    if (title) articleUpdates.title = title;
+    if (description) articleUpdates.description = description;
+    if (views !== undefined) articleUpdates.views = views;
+    if (is_published !== undefined) articleUpdates.is_published = is_published;
+    if (image !== undefined) articleUpdates.image = image;
 
-    const blog = await Blog.findOneAndUpdate(
+    const articles = await Articles.findOneAndUpdate(
       {
         _id: id,
         status: true, // Check if the blog is active (status: true)
         deleted_at: null, // Check if the blog is not deleted (deleted_at: null)
       },
-      blogUpdates,
+      articleUpdates,
       { new: true }
     );
 
-    if (!blog) {
+    if (!articles) {
       return res.status(404).json({
         status: false,
         data: null,
-        message: "Blog not found or already deleted",
+        message: "Articles not found or already deleted",
       });
     }
 
@@ -235,14 +234,15 @@ const editBlog = async (req, res) => {
 
     res.json({
       status: true,
-      data: blog,
-      message: "Blog has been updated successfully",
+      data: articles,
+      message: "Articles has been updated successfully",
     });
+
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while updating the Blog",
+      message: "An error occurred while updating the Articles",
     });
   }
 };
@@ -377,10 +377,10 @@ module.exports = {
   getAllArticles,
   getAllActiveArticles,
   getMostRecentArticles,
-  editBlog,
+  createArticle,
+  editArticle,
   deleteBlog,
   publishBlog,
   unpublishBlog,
   searchBlog,
-  getAllUnpublishedBlogs,
 };

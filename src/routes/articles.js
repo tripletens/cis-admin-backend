@@ -13,7 +13,6 @@ router.get('/articles/active', ArticlesController.getAllActiveArticles);
 // GET /Articles/recent - Fetch recent Articles
 router.get('/articles/recent', ArticlesController.getMostRecentArticles);
 
-
 // // GET /Blogs/unpublished - Fetch all the unpublished Blogs 
 // router.get('/blogs/unpublished', BlogController.getAllUnpublishedBlogs);
 
@@ -26,11 +25,11 @@ router.get('/articles/recent', ArticlesController.getMostRecentArticles);
 // // GET /Blog/:id - Fetch a Blog by ID
 // router.get('/blog/:id', BlogController.getBlogById);
 
-// // POST /Blogs - Create a new Blog
-// router.post('/blogs', BlogController.createBlog);
+// POST /Articles - Create a new Articles
+router.post('/articles', ArticlesController.createArticle);
 
-// // PUT /Blogs/:id - Edit a Blog
-// router.put('/blog/:id', BlogController.editBlog);
+// PUT /Blogs/:id - Edit a Blog
+router.put('/articles/:id', ArticlesController.editArticle);
 
 // // DELETE /Blogs/:id - Delete a Blog
 // router.delete('/blog/:id', BlogController.deleteBlog);
