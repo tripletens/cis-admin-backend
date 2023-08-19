@@ -78,41 +78,26 @@ const getMostRecentArticles = async (req, res) => {
 };
 
 // fetch all the unpublished articles
-// const getAllUnpublishedArticles = async (req, res) => {
-//   try {
-//     const Blogs = await Blog.find({
-//       status: true,
-//       is_published: false,
-//     }).populate("department_id");
+const getAllUnpublishedArticles = async (req, res) => {
+  try {
+    const articles = await Articles.find({
+      status: true,
+      is_published: false,
+    });
 
-//     // Extracting department_id and department_name for each blog
-//     const blogsWithDepartments = Blogs.map((blog) => {
-//       const department = blog.department_id; // Retrieve the populated department
-
-//       // Check if the department is defined and not null before accessing its properties
-//       const department_id = department ? department._id : null;
-//       const department_name = department ? department.name : null;
-
-//       return {
-//         ...blog._doc,
-//         department_id,
-//         department_name,
-//       };
-//     });
-
-//     res.json({
-//       status: true,
-//       message: "All unpublished blogs fetched successfully",
-//       data: blogsWithDepartments,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: false,
-//       data: null,
-//       message: "An error occurred while fetching blogs => " + error,
-//     });
-//   }
-// };
+    res.json({
+      status: true,
+      message: "All unpublished articles fetched successfully",
+      data: articles,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching articles => " + error,
+    });
+  }
+};
 
 // fetch articles by id 
 // const getArticlesById = async (req, res) => {
@@ -249,126 +234,126 @@ const editArticle = async (req, res) => {
 
 
 // unpublish article
-const unpublishBlog = async (req, res) => {
+const unpublishArticles = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const unpublishBlog = await Blog.findByIdAndUpdate(
+    const unpublishArticles = await Articles.findByIdAndUpdate(
       { _id: id, status: true, deleted_at: null },
       { is_published: false },
       { new: true }
     );
 
-    // return unpublishBlog;
+    // return unpublishArticles;
 
-    if (!unpublishBlog) {
+    if (!unpublishArticles) {
       return res.status(404).json({
         status: false,
         data: null,
-        message: "No blog with that ID exists.",
+        message: "No Articles with that ID exists.",
       });
     }
 
     res.json({
       status: true,
       data: null,
-      message: "Blog unpublished successfully",
+      message: "Articles unpublished successfully",
     });
   } catch (err) {
     res.status(500).json({
       status: false,
       data: null,
       //   message: err
-      message: "An error occurred while unpublishing the Blog",
+      message: "An error occurred while unpublishing the Articles",
     });
   }
 };
 
 // publish article
-const publishBlog = async (req, res) => {
+const publishArticles = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const blog = await Blog.findOneAndUpdate(
+    const Articles = await Articles.findOneAndUpdate(
       { _id: id, status: true, deleted_at: null },
       { is_published: true },
       { new: true }
     );
 
-    if (!blog) {
+    if (!Articles) {
       return res.status(404).json({
         status: false,
         data: null,
-        message: "No unpublished blog with that ID exists.",
+        message: "No unpublished Articles with that ID exists.",
       });
     }
 
     res.json({
       status: true,
       data: null,
-      message: "Blog published successfully",
+      message: "Articles published successfully",
     });
   } catch (err) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while publishing the Blog",
+      message: "An error occurred while publishing the Articles",
     });
   }
 };
 
-// Delete a Blog (change status to false)
-const deleteBlog = async (req, res) => {
+// Delete a Articles (change status to false)
+const deleteArticles = async (req, res) => {
   const { id } = req.params;
   try {
     const currentTime = new Date();
-    const blog = await Blog.findByIdAndUpdate(
+    const Articles = await Articles.findByIdAndUpdate(
       id,
       { status: false, deleted_at: currentTime },
       { new: true }
     );
 
-    if (!blog) {
+    if (!Articles) {
       return res.status(404).json({
         status: false,
         data: null,
-        message: "Blog not found",
+        message: "Articles not found",
       });
     }
 
     res.json({
       status: true,
       data: null,
-      message: "Blog deleted successfully",
+      message: "Articles deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while deleting the Blog",
+      message: "An error occurred while deleting the Articles",
     });
   }
 };
 
 // search article 
-const searchBlog = async (req, res) => {
+const searchArticles = async (req, res) => {
   const { query } = req.body;
   try {
-    const blogs = await Blog.find({
+    const Articless = await Articles.find({
       $text: { $search: query },
       $or: [{ status: false }, { deleted_at: null }],
     });
     res.json({
       status: true,
-      message: "Blogs searched successfully",
-      data: blogs,
+      message: "Articless searched successfully",
+      data: Articless,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
       hey: error,
-      message: "An error occurred while searching for blogs",
+      message: "An error occurred while searching for Articless",
     });
   }
 };
@@ -377,10 +362,11 @@ module.exports = {
   getAllArticles,
   getAllActiveArticles,
   getMostRecentArticles,
+  getAllUnpublishedArticles,
   createArticle,
   editArticle,
-  deleteBlog,
-  publishBlog,
-  unpublishBlog,
-  searchBlog,
+  deleteArticles,
+  publishArticles,
+  unpublishArticles,
+  searchArticles,
 };

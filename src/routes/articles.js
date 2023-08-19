@@ -13,8 +13,8 @@ router.get('/articles/active', ArticlesController.getAllActiveArticles);
 // GET /Articles/recent - Fetch recent Articles
 router.get('/articles/recent', ArticlesController.getMostRecentArticles);
 
-// // GET /Blogs/unpublished - Fetch all the unpublished Blogs 
-// router.get('/blogs/unpublished', BlogController.getAllUnpublishedBlogs);
+// // GET /Articles/unpublished - Fetch all the unpublished Articles 
+router.get('/articles/unpublished', ArticlesController.getAllUnpublishedArticles);
 
 // // PUT /Blogs/publish - Publish a Blog
 // router.put('/blog/publish/:id', BlogController.publishBlog);
