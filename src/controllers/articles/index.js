@@ -99,6 +99,29 @@ const getAllUnpublishedArticles = async (req, res) => {
   }
 };
 
+// fetch all the published articles
+const getAllpublishedArticles = async (req, res) => {
+  try {
+    const articles = await Articles.find({
+      status: true,
+      is_published: true,
+    });
+
+    res.json({
+      status: true,
+      message: "All published articles fetched successfully",
+      data: articles,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching articles => " + error,
+    });
+  }
+};
+
+
 // fetch articles by id 
 // const getArticlesById = async (req, res) => {
 //   const { id } = req.params;
@@ -363,6 +386,7 @@ module.exports = {
   getAllActiveArticles,
   getMostRecentArticles,
   getAllUnpublishedArticles,
+  getAllpublishedArticles,
   createArticle,
   editArticle,
   deleteArticles,

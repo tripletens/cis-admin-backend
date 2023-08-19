@@ -16,6 +16,11 @@ router.get('/articles/recent', ArticlesController.getMostRecentArticles);
 // // GET /Articles/unpublished - Fetch all the unpublished Articles 
 router.get('/articles/unpublished', ArticlesController.getAllUnpublishedArticles);
 
+// // GET /Articles/published - Fetch all the published Articles 
+router.get('/articles/published', ArticlesController.getAllpublishedArticles);
+
+
+
 // // PUT /Blogs/publish - Publish a Blog
 // router.put('/blog/publish/:id', BlogController.publishBlog);
 
