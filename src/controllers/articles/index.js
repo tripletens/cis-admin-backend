@@ -43,6 +43,40 @@ const getAllActiveArticles = async (req, res) => {
   }
 };
 
+
+// get the top most recent articles i.e 10 
+const getMostRecentArticles = async (req, res) => {
+  try {
+    let limit = req.query.limit || 10; // Default limit is 10, but can be overridden with a query parameter
+    
+    // Parse the limit parameter as an integer
+    limit = parseInt(limit, 10);
+
+    if (isNaN(limit) || limit <= 0) {
+      return res.status(400).json({
+        status: false,
+        data: null,
+        message: "Invalid limit parameter. Limit must be a positive integer.",
+      });
+    }
+
+    // Fetch the specified number of most recent articles from the database
+    const articles = await Articles.find().sort({ createdAt: -1 }).limit(limit);
+
+    res.json({
+      status: true,
+      message: `${limit} Most Recent Articles fetched successfully`,
+      data: articles,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching articles",
+    });
+  }
+};
+
 // fetch all the unpublished articles
 const getAllUnpublishedBlogs = async (req, res) => {
   try {
@@ -342,6 +376,7 @@ const searchBlog = async (req, res) => {
 module.exports = {
   getAllArticles,
   getAllActiveArticles,
+  getMostRecentArticles,
   editBlog,
   deleteBlog,
   publishBlog,

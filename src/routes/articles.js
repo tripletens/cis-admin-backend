@@ -10,6 +10,10 @@ router.get('/articles', ArticlesController.getAllArticles);
 // GET /Articles/active - Fetch all active Articles
 router.get('/articles/active', ArticlesController.getAllActiveArticles);
 
+// GET /Articles/recent - Fetch recent Articles
+router.get('/articles/recent', ArticlesController.getMostRecentArticles);
+
+
 // // GET /Blogs/unpublished - Fetch all the unpublished Blogs 
 // router.get('/blogs/unpublished', BlogController.getAllUnpublishedBlogs);
 
