@@ -123,41 +123,38 @@ const getAllpublishedArticles = async (req, res) => {
 
 
 // fetch articles by id 
-// const getArticlesById = async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const blog = await Blog.findOne({
-//       _id: id,
-//       $or: [{ status: false }, { deleted_at: null }],
-//     }).populate("department_id", "department_id department_name"); // Populate the department_id field
+const getArticlesById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const article = await Articles.findOne({
+      _id: id,
+      $or: [{ status: false }, { deleted_at: null }],
+    });
 
-//     if (!blog) {
-//       return res.status(404).json({
-//         status: false,
-//         data: null,
-//         message: "Blog not found or already deleted",
-//       });
-//     }
+    if (!article) {
+      return res.status(404).json({
+        status: false,
+        data: null,
+        message: "Articles not found or already deleted",
+      });
+    }
 
-//     const { department_id, department_name } = blog.department_id; // Extract department data
-
-//     res.json({
-//       status: true,
-//       message: "Blog has been fetched successfully",
-//       data: {
-//         blog,
-//         department_id,
-//         department_name,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: false,
-//       data: null,
-//       message: "An error occurred while fetching the blog",
-//     });
-//   }
-// };
+    res.json({
+      status: true,
+      message: "Articles has been fetched successfully",
+      data: {
+        article
+      },
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching the articles",
+    });
+  }
+};
 
 // Create a new article
 const createArticle = async (req, res) => {
@@ -221,7 +218,7 @@ const editArticle = async (req, res) => {
     const articles = await Articles.findOneAndUpdate(
       {
         _id: id,
-        status: true, // Check if the blog is active (status: true)
+        status: true, // Check if the articles is active (status: true)
         deleted_at: null, // Check if the blog is not deleted (deleted_at: null)
       },
       articleUpdates,
@@ -254,7 +251,6 @@ const editArticle = async (req, res) => {
     });
   }
 };
-
 
 // unpublish article
 const unpublishArticles = async (req, res) => {
@@ -393,4 +389,5 @@ module.exports = {
   publishArticles,
   unpublishArticles,
   searchArticles,
+  getArticlesById
 };

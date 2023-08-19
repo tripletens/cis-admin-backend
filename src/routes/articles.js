@@ -25,8 +25,8 @@ router.put('/articles/publish/:id', ArticlesController.publishArticles);
 // PUT /Articles/unpublish - Unpublish a Articles
 router.put('/articles/unpublish/:id', ArticlesController.unpublishArticles);
 
-// // GET /Blog/:id - Fetch a Blog by ID
-// router.get('/blog/:id', BlogController.getBlogById);
+// GET /Articles/:id - Fetch an Article by ID
+router.get('/articles/:id', ArticlesController.getArticlesById);
 
 // POST /Articles - Create a new Articles
 router.post('/articles', ArticlesController.createArticle);
