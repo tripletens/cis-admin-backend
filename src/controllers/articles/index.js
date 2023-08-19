@@ -21,39 +21,24 @@ const getAllArticles = async (req, res) => {
   }
 };
 
-// Fetch all active blogs
-const getAllActiveBlogs = async (req, res) => {
+// Fetch all active articles
+const getAllActiveArticles = async (req, res) => {
   try {
-    const Blogs = await Blog.find({ status: true }).populate("department_id");
+    const articles = await Articles.find({ status: true });
 
-    // Extracting department_id and department_name for each blog
-    const blogsWithDepartments = Blogs.map((blog) => {
-      const department = blog.department_id; // Retrieve the populated department
-
-      // Check if the department is defined and not null before accessing its properties
-      const department_id = department ? department._id : null;
-      const department_name = department ? department.name : null;
-
-      return {
-        ...blog._doc,
-        department_id,
-        department_name,
-      };
-    });
-
-    // Sort the blogs by most recent (based on createdAt field)
-    blogsWithDepartments.sort((a, b) => b.createdAt - a.createdAt);
+    // Sort the articles by most recent (based on createdAt field)
+    articles.sort((a, b) => b.createdAt - a.createdAt);
 
     res.json({
       status: true,
-      message: "All active blogs fetched successfully",
-      data: blogsWithDepartments,
+      message: "All active articles fetched successfully",
+      data: articles,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while fetching blogs => " + error,
+      message: "An error occurred while fetching articles => " + error,
     });
   }
 };
@@ -356,7 +341,7 @@ const searchBlog = async (req, res) => {
 
 module.exports = {
   getAllArticles,
-  getAllActiveBlogs,
+  getAllActiveArticles,
   editBlog,
   deleteBlog,
   publishBlog,

@@ -4,11 +4,11 @@ const ArticlesController = require('../controllers/articles/index');
 
 // Define routes
 
-// GET /Blogs - Fetch all articles
+// GET /Articles - Fetch all articles
 router.get('/articles', ArticlesController.getAllArticles);
 
-// // GET /Blogs/active - Fetch all active Blogs
-// router.get('/blogs/active', BlogController.getAllActiveBlogs);
+// GET /Articles/active - Fetch all active Articles
+router.get('/articles/active', ArticlesController.getAllActiveArticles);
 
 // // GET /Blogs/unpublished - Fetch all the unpublished Blogs 
 // router.get('/blogs/unpublished', BlogController.getAllUnpublishedBlogs);
