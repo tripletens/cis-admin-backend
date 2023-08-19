@@ -61,7 +61,7 @@ const getMostRecentArticles = async (req, res) => {
     }
 
     // Fetch the specified number of most recent articles from the database
-    const articles = await Articles.find().sort({ createdAt: -1 }).limit(limit);
+    const articles = await Articles.find({status : true, is_published: true}).sort({ createdAt: -1 }).limit(limit);
 
     res.json({
       status: true,
@@ -297,13 +297,13 @@ const publishArticles = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const Articles = await Articles.findOneAndUpdate(
+    const articles = await Articles.findOneAndUpdate(
       { _id: id, status: true, deleted_at: null },
       { is_published: true },
       { new: true }
     );
 
-    if (!Articles) {
+    if (!articles) {
       return res.status(404).json({
         status: false,
         data: null,
@@ -330,13 +330,13 @@ const deleteArticles = async (req, res) => {
   const { id } = req.params;
   try {
     const currentTime = new Date();
-    const Articles = await Articles.findByIdAndUpdate(
+    const articles = await Articles.findByIdAndUpdate(
       id,
       { status: false, deleted_at: currentTime },
       { new: true }
     );
 
-    if (!Articles) {
+    if (!articles) {
       return res.status(404).json({
         status: false,
         data: null,

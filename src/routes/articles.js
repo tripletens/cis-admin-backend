@@ -13,19 +13,17 @@ router.get('/articles/active', ArticlesController.getAllActiveArticles);
 // GET /Articles/recent - Fetch recent Articles
 router.get('/articles/recent', ArticlesController.getMostRecentArticles);
 
-// // GET /Articles/unpublished - Fetch all the unpublished Articles 
+// GET /Articles/unpublished - Fetch all the unpublished Articles 
 router.get('/articles/unpublished', ArticlesController.getAllUnpublishedArticles);
 
-// // GET /Articles/published - Fetch all the published Articles 
+// GET /Articles/published - Fetch all the published Articles 
 router.get('/articles/published', ArticlesController.getAllpublishedArticles);
 
+// PUT /Articles/publish - Publish an Articles
+router.put('/articles/publish/:id', ArticlesController.publishArticles);
 
-
-// // PUT /Blogs/publish - Publish a Blog
-// router.put('/blog/publish/:id', BlogController.publishBlog);
-
-// // PUT /Blogs/unpublish - Unpublish a Blog
-// router.put('/blog/unpublish/:id', BlogController.unpublishBlog);
+// PUT /Articles/unpublish - Unpublish a Articles
+router.put('/articles/unpublish/:id', ArticlesController.unpublishArticles);
 
 // // GET /Blog/:id - Fetch a Blog by ID
 // router.get('/blog/:id', BlogController.getBlogById);
@@ -33,11 +31,11 @@ router.get('/articles/published', ArticlesController.getAllpublishedArticles);
 // POST /Articles - Create a new Articles
 router.post('/articles', ArticlesController.createArticle);
 
-// PUT /Blogs/:id - Edit a Blog
+// PUT /Articles/:id - Edit a Articles
 router.put('/articles/:id', ArticlesController.editArticle);
 
-// // DELETE /Blogs/:id - Delete a Blog
-// router.delete('/blog/:id', BlogController.deleteBlog);
+// DELETE /Articles/:id - Delete a Articles
+router.delete('/articles/:id', ArticlesController.deleteArticles);
 
 // // GET /Blogs - search a Blog
 // router.get('/blogs/search', BlogController.searchBlog);
