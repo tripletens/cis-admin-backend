@@ -16,8 +16,8 @@ router.get('/members/:id', MemberController.getMemberById);
 // POST /Member - Create a new Member
 router.post('/members', MemberController.createMember);
 
-// // PUT /Blogs/:id - Edit a Blog
-// router.put('/blog/:id', MemberController.editBlog);
+// PUT /Blogs/:id - Edit a Member
+router.put('/members/:id', MemberController.editMember);
 
 // // DELETE /Blogs/:id - Delete a Blog
 // router.delete('/blog/:id', MemberController.deleteBlog);

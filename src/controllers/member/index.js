@@ -139,58 +139,50 @@ const createMember = async (req, res) => {
 };
 
 
-// Edit a blog
-const editBlog = async (req, res) => {
-  const { id } = req.params;
-  const { title, description, department_id, views, is_published, image } =
-    req.body;
+// Edit a member
+const editMember = async (req, res) => {
+  const memberId = req.params.id; // Get the member ID from the request parameters
+  const updates = req.body; // Get the updated member details from the request body
 
   try {
-    const blogUpdates = {};
+    const member = await Member.findByIdAndUpdate(
+      memberId,
+      { $set: updates },
+      { new: true } // Return the updated member in the response
+    ).populate("departmentId", "name");
 
-    // Only update the fields that were provided in the request body
-    if (title) blogUpdates.title = title;
-    if (description) blogUpdates.description = description;
-    if (department_id) blogUpdates.department_id = department_id; // Update department_id
-    if (views !== undefined) blogUpdates.views = views;
-    if (is_published !== undefined) blogUpdates.is_published = is_published;
-    if (image !== undefined) blogUpdates.image = image;
-
-    const blog = await Blog.findOneAndUpdate(
-      {
-        _id: id,
-        status: true, // Check if the blog is active (status: true)
-        deleted_at: null, // Check if the blog is not deleted (deleted_at: null)
-      },
-      blogUpdates,
-      { new: true }
-    );
-
-    if (!blog) {
+    if (!member) {
       return res.status(404).json({
         status: false,
+        message: "Member not found",
         data: null,
-        message: "Blog not found or already deleted",
       });
     }
 
-    // No need to manually extract department_id and department_name
-    // as they are not part of the BlogSchema and will be populated
-    // when fetching the blog using .findOneAndUpdate
+    const department = member.departmentId;
+    const department_id = department ? department._id : null;
+    const department_name = department ? department.name : null;
+
+    const memberWithDepartment = {
+      ...member.toObject(),
+      department_id,
+      department_name,
+    };
 
     res.json({
       status: true,
-      data: blog,
-      message: "Blog has been updated successfully",
+      message: "Member updated successfully",
+      data: memberWithDepartment,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while updating the Blog",
+      message: "An error occurred while updating the member => " + error,
     });
   }
 };
+
 
 // Delete a Blog (change status to false)
 const deleteBlog = async (req, res) => {
@@ -252,4 +244,5 @@ module.exports = {
   getAllActiveMembers,
   getMemberById,
   createMember,
+  editMember,
 };
