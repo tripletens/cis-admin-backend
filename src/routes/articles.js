@@ -37,7 +37,7 @@ router.put('/articles/:id', ArticlesController.editArticle);
 // DELETE /Articles/:id - Delete a Articles
 router.delete('/articles/:id', ArticlesController.deleteArticles);
 
-// // GET /Blogs - search a Blog
-// router.get('/blogs/search', BlogController.searchBlog);
+// GET /Articles - search a Articles
+router.get('/articles/search/new', ArticlesController.searchArticles);
 
 module.exports = router;

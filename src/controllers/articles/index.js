@@ -5,13 +5,14 @@ const getAllArticles = async (req, res) => {
   try {
     const articles = await Articles.find();
     // Sort the articles by most recent (based on createdAt field)
-    // Articles.sort((a, b) => b.createdAt - a.createdAt);
+    articles.sort((a, b) => b.createdAt - a.createdAt);
     
     res.json({
       status: true,
       message: "All Articles fetched successfully",
       data: articles,
     });
+
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -121,7 +122,6 @@ const getAllpublishedArticles = async (req, res) => {
   }
 };
 
-
 // fetch articles by id 
 const getArticlesById = async (req, res) => {
   const { id } = req.params;
@@ -146,7 +146,7 @@ const getArticlesById = async (req, res) => {
         article
       },
     });
-    
+
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -357,25 +357,38 @@ const deleteArticles = async (req, res) => {
 // search article 
 const searchArticles = async (req, res) => {
   const { query } = req.body;
-  try {
-    const Articless = await Articles.find({
-      $text: { $search: query },
-      $or: [{ status: false }, { deleted_at: null }],
-    });
-    res.json({
-      status: true,
-      message: "Articless searched successfully",
-      data: Articless,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      hey: error,
-      message: "An error occurred while searching for Articless",
-    });
-  }
+
+  return query;
+
+  // try {
+  //   if (!query || typeof query !== 'string' || query.trim() === '') {
+  //     return res.status(400).json({
+  //       status: false,
+  //       message: "Invalid or empty search query.",
+  //     });
+  //   }
+
+  //   const articles = await Articles.find({
+  //     $text: { $search: query },
+  //     $or: [{ status: true }, { deleted_at: null }],
+  //   });
+
+  //   res.json({
+  //     status: true,
+  //     message: "Articles searched successfully",
+  //     data: articles,
+  //   });
+
+  // } catch (error) {
+  //   res.status(500).json({
+  //     status: false,
+  //     data: null,
+  //     message: "An error occurred while searching for Articles",
+  //     error: error.message, // Include the error message for debugging
+  //   });
+  // }
 };
+
 
 module.exports = {
   getAllArticles,
