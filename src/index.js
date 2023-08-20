@@ -10,6 +10,7 @@ const contactpageRouter = require('./routes/contact');
 const departmentRouter = require('./routes/department');
 const blogRouter = require('./routes/blog');
 const articlesRouter = require('./routes/articles');
+const membersRouter = require('./routes/members');
 
 const AuthMiddleware = require('./middleware/auth');
 
@@ -38,6 +39,9 @@ app.use('/api/settings', AuthMiddleware, blogRouter);
 
 // Mount the articles router
 app.use('/api/settings', AuthMiddleware, articlesRouter);
+
+// Mount the members router
+app.use('/api/settings', AuthMiddleware, membersRouter);
 
 // Mount the landing page router
 app.use('/api/settings/landing-page',AuthMiddleware,landingpageRouter);

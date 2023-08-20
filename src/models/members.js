@@ -27,6 +27,16 @@ const memberSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    status: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    deleted_at: {
+      type: Date,
+      required: false,
+      default: null,
+    },
     createdAt: {
       type: Date,
       default: Date.now,
