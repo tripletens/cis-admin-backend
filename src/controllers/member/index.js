@@ -16,6 +16,8 @@ const getAllMembers = async (req, res) => {
       facebook: member.facebook,
       twitter: member.twitter,
       createdAt: member.createdAt,
+      status: member.status,
+      deleted_at: member.deleted_at
     }));
 
     res.json({
@@ -68,7 +70,7 @@ const getAllActiveMembers = async (req, res) => {
   }
 };
 
-
+// Fetch Member by Id
 const getMemberById = async (req, res) => {
   const memberId = req.params.id; // Get the member ID from the request parameters
 
@@ -107,7 +109,6 @@ const getMemberById = async (req, res) => {
   }
 };
 
-
 // Create a new member
 const createMember = async (req, res) => {
   const { name, departmentId, office, linkedin, facebook, twitter } = req.body;
@@ -138,6 +139,35 @@ const createMember = async (req, res) => {
   }
 };
 
+// search for a member
+const searchMembers = async (req, res) => {
+  const query = req.query.q; // Get the search query from the query parameter
+
+  try {
+    const members = await Member.find({
+      $or: [
+        { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on the name field
+        { office: { $regex: query, $options: 'i' } }, // Case-insensitive search on the office field
+        { linkedin: { $regex: query, $options: 'i' } }, // Case-insensitive search on the linkedin field
+        { facebook: { $regex: query, $options: 'i' } }, // Case-insensitive search on the facebook field
+        { twitter: { $regex: query, $options: 'i' } }, // Case-insensitive search on the twitter field
+      ],
+    }).populate("departmentId", "name");
+
+    res.json({
+      status: true,
+      message: "Members searched successfully",
+      data: membersWithDepartments,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while searching for members => " + error,
+    });
+  }
+};
 
 // Edit a member
 const editMember = async (req, res) => {
@@ -183,58 +213,35 @@ const editMember = async (req, res) => {
   }
 };
 
-
-// Delete a Blog (change status to false)
-const deleteBlog = async (req, res) => {
+// Delete a Member (change status to false)
+const deleteMember = async (req, res) => {
   const { id } = req.params;
   try {
     const currentTime = new Date();
-    const blog = await Blog.findByIdAndUpdate(
+    const member = await Member.findByIdAndUpdate(
       id,
       { status: false, deleted_at: currentTime },
       { new: true }
     );
 
-    if (!blog) {
+    if (!member) {
       return res.status(404).json({
         status: false,
         data: null,
-        message: "Blog not found",
+        message: "Member not found",
       });
     }
 
     res.json({
       status: true,
       data: null,
-      message: "Blog deleted successfully",
+      message: "Member deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while deleting the Blog",
-    });
-  }
-};
-
-const searchBlog = async (req, res) => {
-  const { query } = req.body;
-  try {
-    const blogs = await Blog.find({
-      $text: { $search: query },
-      $or: [{ status: false }, { deleted_at: null }],
-    });
-    res.json({
-      status: true,
-      message: "Blogs searched successfully",
-      data: blogs,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      hey: error,
-      message: "An error occurred while searching for blogs",
+      message: "An error occurred while deleting the Member",
     });
   }
 };
@@ -245,4 +252,6 @@ module.exports = {
   getMemberById,
   createMember,
   editMember,
+  deleteMember,
+  searchMembers
 };

@@ -19,6 +19,9 @@ router.get('/articles/unpublished', ArticlesController.getAllUnpublishedArticles
 // GET /Articles/published - Fetch all the published Articles 
 router.get('/articles/published', ArticlesController.getAllpublishedArticles);
 
+// GET /Articles - search a Articles
+router.get('/articles/search', ArticlesController.searchArticles);
+
 // PUT /Articles/publish - Publish an Articles
 router.put('/articles/publish/:id', ArticlesController.publishArticles);
 
@@ -36,8 +39,5 @@ router.put('/articles/:id', ArticlesController.editArticle);
 
 // DELETE /Articles/:id - Delete a Articles
 router.delete('/articles/:id', ArticlesController.deleteArticles);
-
-// GET /Articles - search a Articles
-router.get('/articles/search/new', ArticlesController.searchArticles);
 
 module.exports = router;

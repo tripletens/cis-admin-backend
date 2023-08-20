@@ -10,19 +10,20 @@ router.get('/members', MemberController.getAllMembers);
 // GET /Members/active - Fetch all active Members
 router.get('/members/active', MemberController.getAllActiveMembers);
 
+// GET /Members - search Member
+router.get('/members/search', MemberController.searchMembers);
+
 // GET /Members/:id - Fetch a Members by ID
 router.get('/members/:id', MemberController.getMemberById);
 
 // POST /Member - Create a new Member
 router.post('/members', MemberController.createMember);
 
-// PUT /Blogs/:id - Edit a Member
+// PUT /Members/:id - Edit a Member
 router.put('/members/:id', MemberController.editMember);
 
-// // DELETE /Blogs/:id - Delete a Blog
-// router.delete('/blog/:id', MemberController.deleteBlog);
+// DELETE /Members/:id - Delete a Member
+router.delete('/members/:id', MemberController.deleteMember);
 
-// // GET /Blogs - search a Blog
-// router.get('/blogs/search', MemberController.searchBlog);
 
 module.exports = router;

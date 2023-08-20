@@ -356,37 +356,36 @@ const deleteArticles = async (req, res) => {
 
 // search article 
 const searchArticles = async (req, res) => {
-  const { query } = req.body;
 
-  return query;
+  const query = req.query.q; // Get the search query from the query parameter
 
-  // try {
-  //   if (!query || typeof query !== 'string' || query.trim() === '') {
-  //     return res.status(400).json({
-  //       status: false,
-  //       message: "Invalid or empty search query.",
-  //     });
-  //   }
+  try {
+    if (!query || typeof query !== 'string' || query.trim() === '') {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid or empty search query.",
+      });
+    }
 
-  //   const articles = await Articles.find({
-  //     $text: { $search: query },
-  //     $or: [{ status: true }, { deleted_at: null }],
-  //   });
+    const articles = await Articles.find({
+      $text: { $search: query },
+      $or: [{ status: true }, { deleted_at: null }],
+    });
 
-  //   res.json({
-  //     status: true,
-  //     message: "Articles searched successfully",
-  //     data: articles,
-  //   });
+    res.json({
+      status: true,
+      message: "Articles searched successfully",
+      data: articles,
+    });
 
-  // } catch (error) {
-  //   res.status(500).json({
-  //     status: false,
-  //     data: null,
-  //     message: "An error occurred while searching for Articles",
-  //     error: error.message, // Include the error message for debugging
-  //   });
-  // }
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while searching for Articles",
+      error: error.message, // Include the error message for debugging
+    });
+  }
 };
 
 
