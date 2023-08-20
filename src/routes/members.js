@@ -10,20 +10,11 @@ router.get('/members', MemberController.getAllMembers);
 // GET /Members/active - Fetch all active Members
 router.get('/members/active', MemberController.getAllActiveMembers);
 
-// // GET /Blogs/unpublished - Fetch all the unpublished Blogs 
-// router.get('/blogs/unpublished', MemberController.getAllUnpublishedBlogs);
+// GET /Members/:id - Fetch a Members by ID
+router.get('/members/:id', MemberController.getMemberById);
 
-// // PUT /Blogs/publish - Publish a Blog
-// router.put('/blog/publish/:id', MemberController.publishBlog);
-
-// // PUT /Blogs/unpublish - Unpublish a Blog
-// router.put('/blog/unpublish/:id', MemberController.unpublishBlog);
-
-// // GET /Blog/:id - Fetch a Blog by ID
-// router.get('/blog/:id', MemberController.getBlogById);
-
-// // POST /Blogs - Create a new Blog
-// router.post('/blogs', MemberController.createBlog);
+// POST /Member - Create a new Member
+router.post('/members', MemberController.createMember);
 
 // // PUT /Blogs/:id - Edit a Blog
 // router.put('/blog/:id', MemberController.editBlog);

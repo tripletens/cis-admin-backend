@@ -69,121 +69,75 @@ const getAllActiveMembers = async (req, res) => {
 };
 
 
-// fetch all the unpublished blogs
-const getAllUnpublishedBlogs = async (req, res) => {
+const getMemberById = async (req, res) => {
+  const memberId = req.params.id; // Get the member ID from the request parameters
+
   try {
-    const Blogs = await Blog.find({
-      status: true,
-      is_published: false,
-    }).populate("department_id");
+    const member = await Member.findById(memberId).populate("departmentId", "name");
 
-    // Extracting department_id and department_name for each blog
-    const blogsWithDepartments = Blogs.map((blog) => {
-      const department = blog.department_id; // Retrieve the populated department
-
-      // Check if the department is defined and not null before accessing its properties
-      const department_id = department ? department._id : null;
-      const department_name = department ? department.name : null;
-
-      return {
-        ...blog._doc,
-        department_id,
-        department_name,
-      };
-    });
-
-    res.json({
-      status: true,
-      message: "All unpublished blogs fetched successfully",
-      data: blogsWithDepartments,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      message: "An error occurred while fetching blogs => " + error,
-    });
-  }
-};
-
-const getBlogById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const blog = await Blog.findOne({
-      _id: id,
-      $or: [{ status: false }, { deleted_at: null }],
-    }).populate("department_id", "department_id department_name"); // Populate the department_id field
-
-    if (!blog) {
+    if (!member) {
       return res.status(404).json({
         status: false,
+        message: "Member not found",
         data: null,
-        message: "Blog not found or already deleted",
       });
     }
 
-    const { department_id, department_name } = blog.department_id; // Extract department data
+    const department = member.departmentId;
+    const department_id = department ? department._id : null;
+    const department_name = department ? department.name : null;
+
+    const memberWithDepartment = {
+      ...member.toObject(),
+      department_id,
+      department_name,
+    };
 
     res.json({
       status: true,
-      message: "Blog has been fetched successfully",
-      data: {
-        blog,
-        department_id,
-        department_name,
-      },
+      message: "Member fetched successfully",
+      data: memberWithDepartment,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while fetching the blog",
+      message: "An error occurred while fetching the member => " + error,
     });
   }
 };
 
-// Create a new blog
-const createBlog = async (req, res) => {
-  try {
-    const {
-      author,
-      title,
-      description,
-      department_id,
-      views,
-      is_published,
-      image,
-    } = req.body;
 
-    // Create new blog
-    const newBlog = new Blog({
-      author,
-      title,
-      description,
-      department_id,
-      views,
-      is_published,
-      image,
-      status: true,
-      deleted_at: null,
+// Create a new member
+const createMember = async (req, res) => {
+  const { name, departmentId, office, linkedin, facebook, twitter } = req.body;
+
+  try {
+    const newMember = new Member({
+      name,
+      departmentId,
+      office,
+      linkedin,
+      facebook,
+      twitter,
     });
 
-    // Save the blog to the database
-    const savedBlog = await newBlog.save();
+    const savedMember = await newMember.save();
 
     res.status(201).json({
       status: true,
-      message: "Blog created successfully",
-      data: savedBlog,
+      message: "Member created successfully",
+      data: savedMember,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred during blog creation",
+      message: "An error occurred while creating the member => " + error,
     });
   }
 };
+
 
 // Edit a blog
 const editBlog = async (req, res) => {
@@ -234,73 +188,6 @@ const editBlog = async (req, res) => {
       status: false,
       data: null,
       message: "An error occurred while updating the Blog",
-    });
-  }
-};
-
-const unpublishBlog = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const unpublishBlog = await Blog.findByIdAndUpdate(
-      { _id: id, status: true, deleted_at: null },
-      { is_published: false },
-      { new: true }
-    );
-
-    // return unpublishBlog;
-
-    if (!unpublishBlog) {
-      return res.status(404).json({
-        status: false,
-        data: null,
-        message: "No blog with that ID exists.",
-      });
-    }
-
-    res.json({
-      status: true,
-      data: null,
-      message: "Blog unpublished successfully",
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      //   message: err
-      message: "An error occurred while unpublishing the Blog",
-    });
-  }
-};
-
-const publishBlog = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const blog = await Blog.findOneAndUpdate(
-      { _id: id, status: true, deleted_at: null },
-      { is_published: true },
-      { new: true }
-    );
-
-    if (!blog) {
-      return res.status(404).json({
-        status: false,
-        data: null,
-        message: "No unpublished blog with that ID exists.",
-      });
-    }
-
-    res.json({
-      status: true,
-      data: null,
-      message: "Blog published successfully",
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      message: "An error occurred while publishing the Blog",
     });
   }
 };
@@ -363,4 +250,6 @@ const searchBlog = async (req, res) => {
 module.exports = {
   getAllMembers,
   getAllActiveMembers,
+  getMemberById,
+  createMember,
 };
