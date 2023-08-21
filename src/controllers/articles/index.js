@@ -3,17 +3,29 @@ const Articles = require("../../models/articles");
 // fetch all articles
 const getAllArticles = async (req, res) => {
   try {
+    // Fetch all articles from the Articles collection
     const articles = await Articles.find();
+
+    // Fetch comment counts for each article
+    const articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id });
+        return { ...article._doc, commentCount }; // Add commentCount to the article object
+      })
+    );
+
     // Sort the articles by most recent (based on createdAt field)
-    articles.sort((a, b) => b.createdAt - a.createdAt);
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
     
+    // Respond with a successful JSON response
     res.json({
       status: true,
       message: "All Articles fetched successfully",
-      data: articles,
+      data: articlesWithCommentCounts,
     });
 
   } catch (error) {
+    // Handle errors and respond with an error JSON response
     res.status(500).json({
       status: false,
       data: null,
@@ -22,18 +34,27 @@ const getAllArticles = async (req, res) => {
   }
 };
 
+
 // Fetch all active articles
 const getAllActiveArticles = async (req, res) => {
   try {
     const articles = await Articles.find({ status: true });
 
+    // Fetch comment counts for each article
+    const articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id });
+        return { ...article._doc, commentCount }; // Add commentCount to the article object
+      })
+    );
+
     // Sort the articles by most recent (based on createdAt field)
-    articles.sort((a, b) => b.createdAt - a.createdAt);
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
 
     res.json({
       status: true,
       message: "All active articles fetched successfully",
-      data: articles,
+      data: articlesWithCommentCounts,
     });
   } catch (error) {
     res.status(500).json({
@@ -64,10 +85,20 @@ const getMostRecentArticles = async (req, res) => {
     // Fetch the specified number of most recent articles from the database
     const articles = await Articles.find({status : true, is_published: true}).sort({ createdAt: -1 }).limit(limit);
 
+    let articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id});
+        return { ...article._doc, commentCount}; // add the coments
+      })
+    );
+
+    // Sort the articles by most recent (based on createdAt field)
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+
     res.json({
       status: true,
       message: `${limit} Most Recent Articles fetched successfully`,
-      data: articles,
+      data: articlesWithCommentCounts,
     });
   } catch (error) {
     res.status(500).json({
@@ -86,10 +117,21 @@ const getAllUnpublishedArticles = async (req, res) => {
       is_published: false,
     });
 
+    let articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id});
+        return { ...article._doc, commentCount}; // add the coments
+      })
+    );
+
+    // Sort the articles by most recent (based on createdAt field)
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+
+
     res.json({
       status: true,
       message: "All unpublished articles fetched successfully",
-      data: articles,
+      data: articlesWithCommentCounts,
     });
   } catch (error) {
     res.status(500).json({
@@ -108,10 +150,20 @@ const getAllpublishedArticles = async (req, res) => {
       is_published: true,
     });
 
+    let articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id});
+        return { ...article._doc, commentCount}; // add the coments
+      })
+    );
+
+    // Sort the articles by most recent (based on createdAt field)
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+
     res.json({
       status: true,
       message: "All published articles fetched successfully",
-      data: articles,
+      data: articlesWithCommentCounts,
     });
   } catch (error) {
     res.status(500).json({
@@ -139,11 +191,16 @@ const getArticlesById = async (req, res) => {
       });
     }
 
+    const commentCount = await Comment.countDocuments({ articleId: article._id});
+  
+    // Sort the articles by most recent (based on createdAt field)
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+
     res.json({
       status: true,
       message: "Articles has been fetched successfully",
       data: {
-        article
+        ...article._doc, commentCount
       },
     });
 
@@ -372,10 +429,20 @@ const searchArticles = async (req, res) => {
       $or: [{ status: true }, { deleted_at: null }],
     });
 
+    let articlesWithCommentCounts = await Promise.all(
+      articles.map(async (article) => {
+        const commentCount = await Comment.countDocuments({ articleId: article._id});
+        return { ...article._doc, commentCount}; // add the coments
+      })
+    );
+
+    // Sort the articles by most recent (based on createdAt field)
+    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+
     res.json({
       status: true,
       message: "Articles searched successfully",
-      data: articles,
+      data: articlesWithCommentCounts,
     });
 
   } catch (error) {
