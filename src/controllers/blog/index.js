@@ -142,6 +142,7 @@ const createBlog = async (req, res) => {
       views,
       is_published,
       image,
+      article_date,
     } = req.body;
 
     // Create new blog
@@ -153,6 +154,7 @@ const createBlog = async (req, res) => {
       views,
       is_published,
       image,
+      article_date,
       status: true,
       deleted_at: null,
     });
@@ -177,7 +179,7 @@ const createBlog = async (req, res) => {
 // Edit a blog
 const editBlog = async (req, res) => {
   const { id } = req.params;
-  const { title, description, department_id, views, is_published, image } =
+  const { title, description, department_id, views, is_published, image,article_date } =
     req.body;
 
   try {
@@ -186,6 +188,7 @@ const editBlog = async (req, res) => {
     // Only update the fields that were provided in the request body
     if (title) blogUpdates.title = title;
     if (description) blogUpdates.description = description;
+    if (article_date) blogUpdates.article_date = article_date;
     if (department_id) blogUpdates.department_id = department_id; // Update department_id
     if (views !== undefined) blogUpdates.views = views;
     if (is_published !== undefined) blogUpdates.is_published = is_published;

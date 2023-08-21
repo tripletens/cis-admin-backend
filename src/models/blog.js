@@ -32,6 +32,12 @@ const BlogSchema = mongoose.Schema(
       default: 0,
     },
 
+    article_date: {
+      type: Date,
+      required: true,
+      default: null,
+    },
+
     is_published: {
       type: Boolean,
       required: true,
