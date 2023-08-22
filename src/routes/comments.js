@@ -7,6 +7,9 @@ const CommentController = require('../controllers/comments/index');
 // GET /Comments - Fetch all Comments
 router.get('/comments', CommentController.getAllComments);
 
+// GET /Comments - Fetch recent Comments
+router.get('/comments', CommentController.fetchRecentComments);
+
 // GET /Comments/:id - Fetch a Comment by ID
 router.get('/comments/:id', CommentController.getCommentsById);
 
