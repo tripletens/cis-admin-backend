@@ -45,6 +45,31 @@ const getCommentsById = async (req, res) => {
   }
 };
 
+// fetch recent comments 
+const fetchRecentComments = async (req, res) => {
+  try {
+    const limit = req.query.limit || 10; // Default to 10 if no limit is provided
+
+    const recentComments = await Comment.find()
+      .sort({ createdAt: -1 })
+      .limit(parseInt(limit)); // Parse the limit parameter as an integer
+    
+    res.json({
+      status: true,
+      message: `Most recent ${limit} comments fetched successfully`,
+      data: recentComments,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching recent comments",
+    });
+  }
+};
+
+
 // Create a new comments
 const createcomments = async (req, res) => {
   try {
@@ -137,6 +162,7 @@ const deletecomments = async (req, res) => {
 };
 
 module.exports = {
+  fetchRecentComments,
   getAllComments,
   getCommentsById,
   createcomments,
