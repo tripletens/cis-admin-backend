@@ -145,7 +145,10 @@ const createBlog = async (req, res) => {
       article_date,
     } = req.body;
 
-    // Create new blog
+    // Convert the 'article_date' string to a Date object
+    const articleDate = new Date(article_date);
+
+    // Create a new blog with the Date object
     const newBlog = new Blog({
       author,
       title,
@@ -154,7 +157,7 @@ const createBlog = async (req, res) => {
       views,
       is_published,
       image,
-      article_date,
+      article_date: articleDate, // Use the Date object here
       status: true,
       deleted_at: null,
     });
@@ -171,10 +174,11 @@ const createBlog = async (req, res) => {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred during blog creation",
+      message: "An error occurred during blog creation: " + error.message,
     });
   }
 };
+
 
 // Edit a blog
 const editBlog = async (req, res) => {

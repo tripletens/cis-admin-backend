@@ -24,8 +24,7 @@ const BlogSchema = mongoose.Schema(
       ref: "Department",
       required: [true, "Please enter a blog department"],
     },
-
-
+    
     views: {
       type: Number,
       required: true,
