@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BlogController = require('../controllers/blog/index');
+const { validateMultipleDateFields } = require('../middleware/validateDate'); // Import the validation middleware
 
 // Define routes
 
@@ -23,10 +24,10 @@ router.put('/blog/unpublish/:id', BlogController.unpublishBlog);
 router.get('/blog/:id', BlogController.getBlogById);
 
 // POST /Blogs - Create a new Blog
-router.post('/blogs', BlogController.createBlog);
+router.post('/blogs',validateMultipleDateFields(['article_date']),BlogController.createBlog);
 
 // PUT /Blogs/:id - Edit a Blog
-router.put('/blog/:id', BlogController.editBlog);
+router.put('/blog/:id', validateMultipleDateFields(['article_date']), BlogController.editBlog);
 
 // DELETE /Blogs/:id - Delete a Blog
 router.delete('/blog/:id', BlogController.deleteBlog);

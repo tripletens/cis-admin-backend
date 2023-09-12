@@ -183,7 +183,7 @@ const createBlog = async (req, res) => {
 // Edit a blog
 const editBlog = async (req, res) => {
   const { id } = req.params;
-  const { title, description, department_id, views, is_published, image,article_date } =
+  const { title, description, department_id, views, is_published, image, article_date } =
     req.body;
 
   try {
@@ -198,13 +198,16 @@ const editBlog = async (req, res) => {
     if (is_published !== undefined) blogUpdates.is_published = is_published;
     if (image !== undefined) blogUpdates.image = image;
 
+    // Convert the 'article_date' string to a Date object
+    const articleDate = new Date(article_date);
+
     const blog = await Blog.findOneAndUpdate(
       {
         _id: id,
         status: true, // Check if the blog is active (status: true)
         deleted_at: null, // Check if the blog is not deleted (deleted_at: null)
       },
-      blogUpdates,
+      {...blogUpdates, article_date: articleDate},
       { new: true }
     );
 
@@ -229,7 +232,7 @@ const editBlog = async (req, res) => {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while updating the Blog",
+      message: error + "An error occurred while updating the Blog",
     });
   }
 };
