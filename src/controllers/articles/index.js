@@ -1,22 +1,58 @@
 const Articles = require("../../models/articles");
 
 // fetch all articles
+// const getAllArticles = async (req, res) => {
+//   try {
+//     // Fetch all articles from the Articles collection
+//     const articles = await Articles.find();
+
+//     // Fetch comment counts for each article
+//     const articlesWithCommentCounts = await Promise.all(
+//       articles.map(async (article) => {
+//         const commentCount = await Comment.countDocuments({ articleId: article._id });
+//         return { ...article._doc, commentCount }; // Add commentCount to the article object
+//       })
+//     );
+
+//     // Sort the articles by most recent (based on createdAt field)
+//     articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
+    
+//     // Respond with a successful JSON response
+//     res.json({
+//       status: true,
+//       message: "All Articles fetched successfully",
+//       data: articlesWithCommentCounts,
+//     });
+
+//   } catch (error) {
+//     // Handle errors and respond with an error JSON response
+//     res.status(500).json({
+//       status: false,
+//       data: null,
+//       message: error + "An error occurred while fetching articles",
+//     });
+//   }
+// };
+
 const getAllArticles = async (req, res) => {
   try {
-    // Fetch all articles from the Articles collection
-    const articles = await Articles.find();
+    // Fetch all articles from the Articles collection with comments count
+    const articlesWithCommentCounts = await Articles.aggregate([
+      {
+        $lookup: {
+          from: 'comments', // Assuming your comments collection is named 'comments'
+          localField: '_id',
+          foreignField: 'articleId',
+          as: 'comments',
+        },
+      },
+      {
+        $addFields: {
+          commentCount: { $size: '$comments' },
+        },
+      },
+    ]).sort({ createdAt: -1 });
 
-    // Fetch comment counts for each article
-    const articlesWithCommentCounts = await Promise.all(
-      articles.map(async (article) => {
-        const commentCount = await Comment.countDocuments({ articleId: article._id });
-        return { ...article._doc, commentCount }; // Add commentCount to the article object
-      })
-    );
-
-    // Sort the articles by most recent (based on createdAt field)
-    articlesWithCommentCounts.sort((a, b) => b.createdAt - a.createdAt);
-    
     // Respond with a successful JSON response
     res.json({
       status: true,
@@ -29,7 +65,7 @@ const getAllArticles = async (req, res) => {
     res.status(500).json({
       status: false,
       data: null,
-      message: "An error occurred while fetching articles",
+      message: "An error occurred while fetching articles: " + error.message,
     });
   }
 };
