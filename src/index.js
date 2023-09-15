@@ -12,7 +12,7 @@ const blogRouter = require('./routes/blog');
 const articlesRouter = require('./routes/articles');
 const membersRouter = require('./routes/members');
 const commentsRouter = require('./routes/comments');
-
+const externalblogsRouter = require('./routes/externalblog');
 const AuthMiddleware = require('./middleware/auth');
 
 const app = express();
@@ -55,6 +55,9 @@ app.use('/api/settings/about-page', AuthMiddleware, aboutpageRouter);
 
 // Mount the contact page router 
 app.use('/api/settings/contact-page', AuthMiddleware, contactpageRouter);
+
+// Mount the external blogs page router 
+app.use('/api/settings', AuthMiddleware, externalblogsRouter);
 
 // Mount the contact page router 
 // app.use('/api/settings/department', AuthMiddleware, contactpageRouter);
