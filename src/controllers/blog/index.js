@@ -21,27 +21,7 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
-// fetch 6 most recent blog posts
-const fetchRecentBlogs = async (req, res) => {
-  try {
-    // Fetch the 6 most recent blog posts sorted by 'article_date' in descending order
-    const recentBlogs = await Blog.find({})
-      .sort({ article_date: -1 })
-      .limit(6);
 
-    res.status(200).json({
-      status: true,
-      message: "Fetched 6 most recent blog posts successfully",
-      data: recentBlogs,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      data: null,
-      message: "An error occurred while fetching recent blog posts: " + error.message,
-    });
-  }
-};
 
 // Fetch all active blogs
 const getAllActiveBlogs = async (req, res) => {
@@ -381,6 +361,29 @@ const searchBlog = async (req, res) => {
   }
 };
 
+// fetch 6 most recent blog posts
+const fetchRecentBlogPosts = async (req, res) => {
+  try {
+    // Fetch the 6 most recent blog posts sorted by 'createdAt' in descending order
+    const recentBlogPosts = await Blog.find({})
+      .sort({ createdAt: -1 }) // Sort by 'createdAt' field
+      .limit(6);
+    
+    res.status(200).json({
+      status: true,
+      message: "Fetched 6 most recent blog posts sorted by created date successfully",
+      data: recentBlogPosts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "An error occurred while fetching recent blog posts: " + error.message,
+    });
+  }
+};
+
+
 module.exports = {
   getAllBlogs,
   getAllActiveBlogs,
@@ -392,5 +395,5 @@ module.exports = {
   unpublishBlog,
   searchBlog,
   getAllUnpublishedBlogs,
-  fetchRecentBlogs
+  fetchRecentBlogPosts
 };
