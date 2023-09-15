@@ -23,6 +23,10 @@ router.put('/blog/unpublish/:id', BlogController.unpublishBlog);
 // GET /Blog/:id - Fetch a Blog by ID
 router.get('/blog/:id', BlogController.getBlogById);
 
+// GET /Blog/recent - fetch 6 most recent blog posts 
+
+router.get('/blog/recent', BlogController.fetchRecentBlogs);
+
 // POST /Blogs - Create a new Blog
 router.post('/blogs',validateMultipleDateFields(['article_date']),BlogController.createBlog);
 
