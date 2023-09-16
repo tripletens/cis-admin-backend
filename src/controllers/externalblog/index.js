@@ -5,6 +5,12 @@ const getallExternalBlog = async (req, res) => {
 
     const externalblogs = await ExternalBlog.find({status : true}).limit(10);
 
+    res.json({
+      status: true,
+      message: "All external blogs fetched successfully",
+      data: externalblogs,
+    });
+
   } catch (error) {
     // Handle errors and respond with an error JSON response
     res.status(500).json({
