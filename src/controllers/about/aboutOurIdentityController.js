@@ -11,6 +11,31 @@ let result = {
     token : null
   };
 
+  exports.fetch_all = async (req, res) => {
+    try {
+      // Find the active document based on a specific condition
+      const activeDocument = await AboutOurIdentitySection.find({
+        active: true,
+      }).lean();
+  
+      if (!activeDocument) {
+        result.status = false;
+        result.data = error.message;
+        res.status(500).json(result);
+      }
+  
+      result.status = true;
+      result.message = "About Our Identity section fetched successfully";
+      result.data = activeDocument;
+  
+      res.status(201).json(result);
+    } catch (error) {
+      result.status = false;
+      result.data = error.message;
+      res.status(500).json(result);
+    }
+  };
+
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {

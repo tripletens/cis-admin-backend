@@ -2,27 +2,57 @@ const AboutFoundersVisionSection = require("../../models/aboutfoundersvision");
 
 require("dotenv").config();
 
-// result 
+// result
 
 let result = {
-    status : null,
-    message : null,
-    data : null,
-    token : null
-  };
+  status: null,
+  message: null,
+  data: null,
+  token: null,
+};
 
-// add new landing hero section  
+exports.fetch_all = async (req, res) => {
+  try {
+    // Find the active document based on a specific condition
+    const activeDocument = await AboutFoundersVisionSection.find({
+      active: true,
+    }).lean();
+
+    if (!activeDocument) {
+      result.status = false;
+      result.data = error.message;
+      res.status(500).json(result);
+    }
+
+    result.status = true;
+    result.message = "About Founder's vision section fetched successfully";
+    result.data = activeDocument;
+
+    res.status(201).json(result);
+  } catch (error) {
+    result.status = false;
+    result.data = error.message;
+    res.status(500).json(result);
+  }
+};
+
+// add new About Founder's vision section
 exports.update = async (req, res) => {
   try {
     const { title, sub_title, body } = req.body;
 
-    let update_data; 
-    
+    let update_data;
+
     // Deactivate all other documents
-    await AboutFoundersVisionSection.updateMany({}, { $set: { active: false } });
+    await AboutFoundersVisionSection.updateMany(
+      {},
+      { $set: { active: false } }
+    );
 
     // Find the active document based on a specific condition
-    const activeDocument = await AboutFoundersVisionSection.findOne({ active: true }).lean();
+    const activeDocument = await AboutFoundersVisionSection.findOne({
+      active: true,
+    }).lean();
 
     if (activeDocument) {
       // Update the record if an ID is provided
@@ -32,7 +62,12 @@ exports.update = async (req, res) => {
       );
     } else {
       // Insert a new record if no ID is provided
-      update_data = await AboutFoundersVisionSection.collection.insertOne({ title, sub_title, body, active: true });
+      update_data = await AboutFoundersVisionSection.collection.insertOne({
+        title,
+        sub_title,
+        body,
+        active: true,
+      });
     }
 
     result.status = true;
