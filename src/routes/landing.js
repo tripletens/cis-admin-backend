@@ -31,4 +31,10 @@ router.post('/metrics-section/update', landingMetricsController.update);
 
 router.post('/update-image/update', landingUpdateImageController.update);
 
+// fetch all the landing page features
+
+router.get('/brand-support-section/fetch', landingBrandSupportController.fetch_all);
+
+router.get('/hero-section/fetch', landingheroController.fetch_all);
+
 module.exports = router;
