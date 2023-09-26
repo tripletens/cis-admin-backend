@@ -14,7 +14,7 @@ let result = {
 exports.fetch_all = async (req, res) => {
   try {
     // Find the active document based on a specific condition
-    const activeDocument = await ContactUsTextSection.find({
+    const activeDocument = await ContactUsTextSection.findOne({
       active: true,
     }).lean();
 

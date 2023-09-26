@@ -16,7 +16,7 @@ let result = {
 exports.fetch_all = async (req, res) => {
   try {
     // Find the active document based on a specific condition
-    const activeDocument = await Settings.find({
+    const activeDocument = await Settings.findOne({
       active: true,
     }).lean();
 
