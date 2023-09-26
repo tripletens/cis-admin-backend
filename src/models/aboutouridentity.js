@@ -13,6 +13,21 @@ const AboutOurIdentitySectionSchema = mongoose.Schema(
       required: false,
     },
 
+    image_one: {
+      type: String,
+      required: false,
+    },
+
+    image_two: {
+      type: String,
+      required: false,
+    },
+
+    image_three: {
+      type: String,
+      required: false,
+    },
+
     body: {
       type: String,
       required: false,

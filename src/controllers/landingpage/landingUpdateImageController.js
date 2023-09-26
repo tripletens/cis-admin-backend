@@ -40,7 +40,7 @@ let result = {
 // add new landing hero section  
 exports.update = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, image_one, image_two, image_three  } = req.body;
 
     let update_data; 
     
