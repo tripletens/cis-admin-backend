@@ -40,17 +40,17 @@ exports.fetch_all = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const {
-      metrics_one,
+      metric_one,
       subtitle_one,
-      metrics_two,
+      metric_two,
       subtitle_two,
-      metrics_three,
+      metric_three,
       subtitle_three,
-      metrics_four,
+      metric_four,
       subtitle_four,
-      metrics_five,
+      metric_five,
       subtitle_five,
-      metrics_six,
+      metric_six,
       subtitle_six,
     } = req.body;
 
@@ -70,17 +70,17 @@ exports.update = async (req, res) => {
         { _id: activeDocument._id },
         {
           $set: {
-            metrics_one,
+            metric_one,
             subtitle_one,
-            metrics_two,
+            metric_two,
             subtitle_two,
-            metrics_three,
+            metric_three,
             subtitle_three,
-            metrics_four,
+            metric_four,
             subtitle_four,
-            metrics_five,
+            metric_five,
             subtitle_five,
-            metrics_six,
+            metric_six,
             subtitle_six,
           },
         }
