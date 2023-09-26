@@ -48,10 +48,13 @@ exports.update = async (req, res) => {
     const {
       banner_one,
       sub_banner_one,
+      image_one,
       banner_two,
       sub_banner_two,
+      image_two,
       banner_three,
       sub_banner_three,
+      image_three
     } = req.body;
 
     let update_data;
@@ -72,10 +75,13 @@ exports.update = async (req, res) => {
           $set: {
             banner_one,
             sub_banner_one,
+            image_one,
             banner_two,
             sub_banner_two,
+            image_two,
             banner_three,
             sub_banner_three,
+            image_three
           },
         }
       );
@@ -84,10 +90,13 @@ exports.update = async (req, res) => {
       update_data = await LandingHeroSection.collection.insertOne({
         banner_one,
         sub_banner_one,
+        image_one,
         banner_two,
         sub_banner_two,
+        image_two,
         banner_three,
         sub_banner_three,
+        image_three,
         active: true,
       });
     }

@@ -13,6 +13,11 @@ const landingHeroSectionSchema = mongoose.Schema(
       required: false,
     },
 
+    image_one: {
+      type: Text,
+      required: false,
+    },
+
     banner_two: {
       type: String,
       required: false,
@@ -22,6 +27,12 @@ const landingHeroSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    image_two: {
+      type: Text,
+      required: false,
+    },
+
     banner_three: {
       type: String,
       required: false,
@@ -31,6 +42,12 @@ const landingHeroSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    image_three: {
+      type: Text,
+      required: false,
+    },
+    
     active: {
         type: Boolean,
         required: true,
