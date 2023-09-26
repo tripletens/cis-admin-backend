@@ -12,6 +12,10 @@ const landingMetricsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_one:{
+      type: String,
+      required: false,
+    },
 
     metric_two: {
       type: String,
@@ -22,6 +26,12 @@ const landingMetricsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    image_two:{
+      type: String,
+      required: false,
+    },
+
     metric_three: {
       type: String,
       required: false,
@@ -31,6 +41,12 @@ const landingMetricsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    image_three:{
+      type: String,
+      required: false,
+    },
+
     metric_four: {
       type: String,
       required: false,
@@ -39,6 +55,12 @@ const landingMetricsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
+    image_four:{
+      type: String,
+      required: false,
+    },
+
     metric_five: {
       type: String,
       required: false,
@@ -47,11 +69,19 @@ const landingMetricsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_five:{
+      type: String,
+      required: false,
+    },
     metric_six: {
       type: String,
       required: false,
     },
     subtitle_six: {
+      type: String,
+      required: false,
+    },
+    image_six:{
       type: String,
       required: false,
     },

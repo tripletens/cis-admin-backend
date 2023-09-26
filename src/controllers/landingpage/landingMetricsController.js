@@ -90,16 +90,22 @@ exports.update = async (req, res) => {
       update_data = await LandingMetrics.collection.insertOne({
         metric_one,
         subtitle_one,
+        image_one,
         metric_two,
         subtitle_two,
+        image_two,
         metric_three,
         subtitle_three,
+        image_three,
         metric_four,
         subtitle_four,
+        image_four,
         metric_five,
         subtitle_five,
+        image_five,
         metric_six,
         subtitle_six,
+        image_six,
         active: true,
       });
     }
