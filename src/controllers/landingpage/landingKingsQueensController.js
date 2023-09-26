@@ -1,6 +1,3 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { ObjectId } = require("mongodb");
 
 const LandingKingsQueensSection = require("../../models/landingkingsqueens");
 
@@ -16,6 +13,8 @@ let result = {
 };
 
 exports.fetch_all = async (req, res) => {
+  // const result = {}; // Initialize the result object
+  
   try {
     // Find the active document based on a specific condition
     const activeDocument = await LandingKingsQueensSection.findOne({
@@ -24,21 +23,22 @@ exports.fetch_all = async (req, res) => {
 
     if (!activeDocument) {
       result.status = false;
-      result.data = error.message;
-      res.status(500).json(result);
+      result.data = "No active document found"; // Provide a custom error message
+      return res.status(500).json(result);
     }
 
     result.status = true;
     result.message = "Landing Kings and Queens section fetched successfully";
     result.data = activeDocument;
 
-    res.status(201).json(result);
+    return res.status(201).json(result);
   } catch (error) {
     result.status = false;
     result.data = error.message;
-    res.status(500).json(result);
+    return res.status(500).json(result);
   }
 };
+
 
 // add new landing hero section
 exports.update = async (req, res) => {
