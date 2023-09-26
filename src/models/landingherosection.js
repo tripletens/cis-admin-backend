@@ -14,7 +14,7 @@ const landingHeroSectionSchema = mongoose.Schema(
     },
 
     image_one: {
-      type: Text,
+      type: String,
       required: false,
     },
 
@@ -29,7 +29,7 @@ const landingHeroSectionSchema = mongoose.Schema(
     },
 
     image_two: {
-      type: Text,
+      type: String,
       required: false,
     },
 
@@ -44,10 +44,10 @@ const landingHeroSectionSchema = mongoose.Schema(
     },
 
     image_three: {
-      type: Text,
+      type: String,
       required: false,
     },
-    
+
     active: {
         type: Boolean,
         required: true,

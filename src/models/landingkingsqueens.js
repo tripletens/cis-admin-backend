@@ -14,17 +14,17 @@ const LandingKingsQueensSectionSchema = mongoose.Schema(
     },
 
     image_one:{
-      type: Text,
+      type: String,
       required: false,
     },
 
     image_two:{
-      type: Text,
+      type: String,
       required: false,
     },
 
     image_three:{
-      type: Text,
+      type: String,
       required: false,
     },
 
@@ -37,7 +37,7 @@ const LandingKingsQueensSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    button_text: {
+    button_String: {
       type: String,
       required: false,
     },
