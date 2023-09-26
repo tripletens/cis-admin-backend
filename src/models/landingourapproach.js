@@ -8,10 +8,12 @@ const LandingOurApproachSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+
     sub_title: {
       type: String,
       required: false,
     },
+
     image_one:{
       type: String,
       required: false,
@@ -26,6 +28,7 @@ const LandingOurApproachSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    
     active: {
         type: Boolean,
         required: true,

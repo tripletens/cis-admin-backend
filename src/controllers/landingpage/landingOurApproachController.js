@@ -43,7 +43,7 @@ exports.fetch_all = async (req, res) => {
 // add new landing hero section
 exports.update = async (req, res) => {
   try {
-    const { title, sub_title } = req.body;
+    const { title, sub_title, image_one, image_two, image_three} = req.body;
 
     let update_data;
 
@@ -66,7 +66,9 @@ exports.update = async (req, res) => {
       update_data = await LandingOurApproachSection.collection.insertOne({
         title,
         sub_title,
-        image_one, image_two, image_three,
+        image_one, 
+        image_two, 
+        image_three,
         active: true,
       });
     }
