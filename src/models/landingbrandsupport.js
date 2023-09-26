@@ -8,6 +8,30 @@ const landingBrandSupportSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_one:{
+      type: String,
+      required: false,
+    },
+    image_two:{
+      type: String,
+      required: false,
+    },
+    image_three:{
+      type: String,
+      required: false,
+    },
+    image_four:{
+      type: String,
+      required: false,
+    },
+    image_five:{
+      type: String,
+      required: false,
+    },
+    image_six:{
+      type: String,
+      required: false,
+    },
     active: {
         type: Boolean,
         required: true,

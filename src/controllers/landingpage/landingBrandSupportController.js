@@ -46,7 +46,7 @@ exports.fetch_all = async (req, res) => {
 // add new landing hero section
 exports.update = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, image_one, image_two, image_three, image_four, image_five} = req.body;
 
     let update_data;
 
@@ -62,7 +62,7 @@ exports.update = async (req, res) => {
       // Update the record if an ID is provided
       update_data = await LandingBrandSupport.updateOne(
         { _id: activeDocument._id },
-        { $set: { title_one } }
+        { $set: { title, image_one, image_two, image_three, image_four, image_five } }
       );
     } else {
       // Insert a new record if no ID is provided
