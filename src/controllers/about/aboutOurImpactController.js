@@ -39,7 +39,7 @@ exports.fetch_all = async (req, res) => {
 // add new landing hero section
 exports.update = async (req, res) => {
   try {
-    const { title, sub_title, body } = req.body;
+    const { title, sub_title, image_one, image_two, image_three, body } = req.body;
 
     let update_data;
 
@@ -55,13 +55,14 @@ exports.update = async (req, res) => {
       // Update the record if an ID is provided
       update_data = await AboutOurImpactSection.updateOne(
         { _id: activeDocument._id },
-        { $set: { title, sub_title, body } }
+        { $set: { title, sub_title, image_one, image_two, image_three, body } }
       );
     } else {
       // Insert a new record if no ID is provided
       update_data = await AboutOurImpactSection.collection.insertOne({
         title,
         sub_title,
+        image_one, image_two, image_three,
         body,
         active: true,
       });
