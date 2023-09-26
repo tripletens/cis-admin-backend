@@ -12,6 +12,10 @@ const landingOurProgramsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_one:{
+      type: String,
+      required: false,
+    },
 
     title_two: {
       type: String,
@@ -19,6 +23,11 @@ const landingOurProgramsSchema = mongoose.Schema(
     },
 
     subtitle_two: {
+      type: String,
+      required: false,
+    },
+
+    image_two:{
       type: String,
       required: false,
     },
@@ -31,6 +40,10 @@ const landingOurProgramsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_three:{
+      type: String,
+      required: false,
+    },
     title_four: {
       type: String,
       required: false,
@@ -39,11 +52,19 @@ const landingOurProgramsSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_four:{
+      type: String,
+      required: false,
+    },
     title_five: {
       type: String,
       required: false,
     },
     subtitle_five: {
+      type: String,
+      required: false,
+    },
+    image_five:{
       type: String,
       required: false,
     },

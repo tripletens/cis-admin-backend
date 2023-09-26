@@ -45,14 +45,19 @@ exports.update = async (req, res) => {
     const {
       title_one,
       subtitle_one,
+      image_one,
       title_two,
       subtitle_two,
+      image_two,
       title_three,
       subtitle_three,
+      image_three,
       title_four,
       subtitle_four,
+      image_four,
       title_five,
       subtitle_five,
+      image_five,
     } = req.body;
 
     let update_data;
@@ -73,14 +78,19 @@ exports.update = async (req, res) => {
           $set: {
             title_one,
             subtitle_one,
+            image_one,
             title_two,
             subtitle_two,
+            image_two,
             title_three,
             subtitle_three,
+            image_three,
             title_four,
             subtitle_four,
+            image_four,
             title_five,
             subtitle_five,
+            image_five,
           },
         }
       );
@@ -89,14 +99,19 @@ exports.update = async (req, res) => {
       update_data = await LandingOurPrograms.collection.insertOne({
         title_one,
         subtitle_one,
+        image_one,
         title_two,
         subtitle_two,
+        image_two,
         title_three,
         subtitle_three,
+        image_three,
         title_four,
         subtitle_four,
+        image_four,
         title_five,
         subtitle_five,
+        image_five,
         active: true,
       });
     }
