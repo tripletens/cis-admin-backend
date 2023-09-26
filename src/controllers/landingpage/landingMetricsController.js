@@ -88,17 +88,17 @@ exports.update = async (req, res) => {
     } else {
       // Insert a new record if no ID is provided
       update_data = await LandingMetrics.collection.insertOne({
-        metrics_one,
+        metric_one,
         subtitle_one,
-        metrics_two,
+        metric_two,
         subtitle_two,
-        metrics_three,
+        metric_three,
         subtitle_three,
-        metrics_four,
+        metric_four,
         subtitle_four,
-        metrics_five,
+        metric_five,
         subtitle_five,
-        metrics_six,
+        metric_six,
         subtitle_six,
         active: true,
       });
