@@ -1,4 +1,3 @@
-
 const LandingKingsQueensSection = require("../../models/landingkingsqueens");
 
 require("dotenv").config();
@@ -14,7 +13,7 @@ let result = {
 
 exports.fetch_all = async (req, res) => {
   // const result = {}; // Initialize the result object
-  
+
   try {
     // Find the active document based on a specific condition
     const activeDocument = await LandingKingsQueensSection.findOne({
@@ -39,13 +38,15 @@ exports.fetch_all = async (req, res) => {
   }
 };
 
-
 // add new landing hero section
 exports.update = async (req, res) => {
   try {
     const {
       heading,
       sub_title,
+      image_one,
+      image_two,
+      image_three,
       chess_icon_subtitle_one,
       chess_icon_subtitle_two,
       button_text,
@@ -69,6 +70,9 @@ exports.update = async (req, res) => {
           $set: {
             heading,
             sub_title,
+            image_one,
+            image_two,
+            image_three,
             chess_icon_subtitle_one,
             chess_icon_subtitle_two,
             button_text,
@@ -80,6 +84,9 @@ exports.update = async (req, res) => {
       update_data = await LandingKingsQueensSection.collection.insertOne({
         heading,
         sub_title,
+        image_one,
+        image_two,
+        image_three,
         chess_icon_subtitle_one,
         chess_icon_subtitle_two,
         button_text,

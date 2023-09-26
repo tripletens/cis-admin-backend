@@ -13,6 +13,21 @@ const LandingKingsQueensSectionSchema = mongoose.Schema(
       required: false,
     },
 
+    image_one:{
+      type: Text,
+      required: false,
+    },
+
+    image_two:{
+      type: Text,
+      required: false,
+    },
+
+    image_three:{
+      type: Text,
+      required: false,
+    },
+
     chess_icon_subtitle_one: {
       type: String,
       required: false,
