@@ -4,7 +4,7 @@ const router = express.Router();
 
 const landingheroController = require('../controllers/landingpage/landingHeroController');
 
-const landingKingsQueensController = require('../controllers/landingpage/landingOurApproachController');
+const landingKingsQueensController = require('../controllers/landingpage/landingKingsQueensController');
 
 const landingOurApproachController = require('../controllers/landingpage/landingOurApproachController');
 
