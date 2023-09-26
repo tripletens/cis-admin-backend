@@ -15,7 +15,7 @@ let result = {
   exports.fetch_all = async (req, res) => {
     try {
       // Find the active document based on a specific condition
-      const activeDocument = await LandingUpdateImageSection.find({
+      const activeDocument = await LandingUpdateImageSection.findOne({
         active: true,
       }).lean();
   

@@ -15,9 +15,11 @@ let result = {
 };
 
 exports.fetch_all = async (req, res) => {
+  const result = {}; // Initialize the result object
+
   try {
     // Find the active document based on a specific condition
-    const activeDocument = await LandingHeroSection.find({
+    const activeDocument = await LandingHeroSection.findOne({
       active: true,
     }).lean();
 
@@ -29,7 +31,7 @@ exports.fetch_all = async (req, res) => {
 
     result.status = true;
     result.message = "Landing Hero section fetched successfully";
-    result.data = activeDocument;
+    result.data = activeDocument; // Assign the object directly to result.data
 
     res.status(201).json(result);
   } catch (error) {
@@ -38,6 +40,7 @@ exports.fetch_all = async (req, res) => {
     res.status(500).json(result);
   }
 };
+
 
 // add new landing hero section
 exports.update = async (req, res) => {
