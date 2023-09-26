@@ -12,6 +12,20 @@ const LandingOurApproachSectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    image_one:{
+      type: String,
+      required: false,
+    },
+
+    image_two:{
+      type: String,
+      required: false,
+    },
+
+    image_three:{
+      type: String,
+      required: false,
+    },
     active: {
         type: Boolean,
         required: true,

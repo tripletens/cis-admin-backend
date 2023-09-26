@@ -59,13 +59,14 @@ exports.update = async (req, res) => {
       // Update the record if an ID is provided
       update_data = await LandingOurApproachSection.updateOne(
         { _id: activeDocument._id },
-        { $set: { title, sub_title } }
+        { $set: { title, sub_title, image_one, image_two, image_three } }
       );
     } else {
       // Insert a new record if no ID is provided
       update_data = await LandingOurApproachSection.collection.insertOne({
         title,
         sub_title,
+        image_one, image_two, image_three,
         active: true,
       });
     }
