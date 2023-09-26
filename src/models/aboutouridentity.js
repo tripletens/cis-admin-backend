@@ -8,7 +8,7 @@ const AboutOurIdentitySectionSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    sub_title: {
+    subtitle: {
       type: String,
       required: false,
     },
