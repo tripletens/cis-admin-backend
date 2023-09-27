@@ -1,5 +1,7 @@
 const Articles = require("../../models/articles");
 
+const Comment = require("../../models/comments");
+
 // fetch all articles
 // const getAllArticles = async (req, res) => {
 //   try {
