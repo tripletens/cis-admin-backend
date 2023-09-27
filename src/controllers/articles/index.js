@@ -104,10 +104,10 @@ const getAllActiveArticles = async (req, res) => {
 };
 
 
-// get the top most recent articles i.e 10 
+// get the top most recent articles i.e 6 
 const getMostRecentArticles = async (req, res) => {
   try {
-    let limit = req.query.limit || 10; // Default limit is 10, but can be overridden with a query parameter
+    let limit = req.query.limit || 6; // Default limit is 6, but can be overridden with a query parameter
     
     // Parse the limit parameter as an integer
     limit = parseInt(limit, 10);
