@@ -27,20 +27,20 @@ const getAllBlogs = async (req, res) => {
 const getAllActiveBlogs = async (req, res) => {
   try {
 
-    let limit = req.query.limit || 6; // create a default query 
+    // let limit = req.query.limit || 6; // create a default query 
 
-    // Parse the limit parameter as an integer
-    limit = parseInt(limit, 10);
+    // // Parse the limit parameter as an integer
+    // limit = parseInt(limit, 10);
 
-    if (isNaN(limit) || limit <= 0) {
-      return res.status(400).json({
-        status: false,
-        data: null,
-        message: "Invalid limit parameter. Limit must be a positive integer.",
-      });
-    }
+    // if (isNaN(limit) || limit <= 0) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     data: null,
+    //     message: "Invalid limit parameter. Limit must be a positive integer.",
+    //   });
+    // }
 
-    const Blogs = await Blog.find({ status: true }).populate("department_id").limit(limit);
+    const Blogs = await Blog.find({ status: true }).populate("department_id");
 
     // Extracting department_id and department_name for each blog
     const blogsWithDepartments = Blogs.map((blog) => {
