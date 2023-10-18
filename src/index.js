@@ -63,7 +63,7 @@ app.use('/api/settings', AuthMiddleware, externalblogsRouter);
 // app.use('/api/settings/department', AuthMiddleware, contactpageRouter);
 
 // Other code for setting up the Express app goes here
-app.listen(port,"0.0.0.0",() => {
+app.listen(port,'0.0.0.0',() => {
   console.log(`App is currently running on port https://localhost:${port}`);
 });
 
