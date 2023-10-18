@@ -16,7 +16,7 @@ const externalblogsRouter = require('./routes/externalblog');
 const AuthMiddleware = require('./middleware/auth');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 // Connect to the database
 connectDB();
@@ -63,7 +63,7 @@ app.use('/api/settings', AuthMiddleware, externalblogsRouter);
 // app.use('/api/settings/department', AuthMiddleware, contactpageRouter);
 
 // Other code for setting up the Express app goes here
-app.listen(port, () => {
+app.listen(port,"0.0.0.0",() => {
   console.log(`App is currently running on port https://localhost:${port}`);
 });
 
